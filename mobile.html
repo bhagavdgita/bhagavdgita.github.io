@@ -83,7 +83,7 @@ table, th, td {
 <hr>
 
 <div id="theshloka">
-
+Loading... Please wait
 </div>
 <div id="themeaning">
 
@@ -118,6 +118,24 @@ function getshloka() {
     document.getElementById("finalshloka").style = "display: block;"
     document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
     document.getElementById("shlokadd").innerHTML = shloka
+    
+    // get shloka from api
+
+    const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/' + shloka + '/', options)
+	.then(response => response.json())
+	.then(response => {
+    document.getElementById("theshloka").innerHTML = response.transliteration.replaceAll('\n', '<br>')
+    document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
+    })
+	.catch(err => console.error(err));
 }
 </script>
 </body>
