@@ -59,7 +59,7 @@ table, th, td {
         <form action="javascript:getshloka()">
   <label for="test">Choose a shloka to explore:</label>
   <select id="shloka" name="test" style="font-family: inherit;">
-    <!-- <option value="all">Full chapter</option> -->
+    <option value="all">Full chapter</option>
     
   </select>
   
@@ -94,6 +94,17 @@ Loading... Please wait
         <footer><a href="/mobile">Go home</a></footer>
 </div>
 
+<div style="display: none;" id="fullchapter">
+<h1>Chapter <span id="chapteradd2"></span>, Full Chapter</h1><hr>
+<div id="theshlokas">
+Loading... Please wait
+</div>
+
+<!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Go home</a></footer>
+</div>
+
 
 <script>
 var chapter = ""
@@ -114,6 +125,13 @@ function getchapter() {
 
 function getshloka() {
 	var shloka = document.getElementById("shloka").value
+    
+    if (shloka == "all") {
+    document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("fullchapter").style = "display: block;"
+    	document.getElementById("chapteradd2").innerHTML = document.getElementById("chapter").value
+    } else {
+    
     document.getElementById("shlokasting").style = "display: none;"
     document.getElementById("finalshloka").style = "display: block;"
     document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
@@ -136,7 +154,10 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
     document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
     })
 	.catch(err => console.error(err));
-}
+    }
+} 
+
+
 </script>
 </body>
 </html>
