@@ -27,37 +27,35 @@ table, th, td {
 <h1>Bhagavad Gita</h1>
 <hr>
 <p>Choose a chapter:</p>
-<table>
-  <tr>
-    <th>&nbsp;Chapter 1 &nbsp;</th>
-    <th>&nbsp;Chapter 2 &nbsp;</th>
-    <th>&nbsp;Chapter 3 &nbsp;</th>
-  </tr>
-  <tr>
-    <th>&nbsp;Chapter 4 &nbsp;</th>
-    <th>&nbsp;Chapter 5 &nbsp;</th>
-    <th>&nbsp;Chapter 6 &nbsp;</th>
-  </tr>
-  <tr>
-    <th>&nbsp;Chapter 7 &nbsp;</th>
-    <th>&nbsp;Chapter 8 &nbsp;</th>
-    <th>&nbsp;Chapter 9 &nbsp;</th>
-  </tr>
-  <tr>
-    <th>&nbsp;Chapter 10 &nbsp;</th>
-    <th>&nbsp;Chapter 11 &nbsp;</th>
-    <th>&nbsp;Chapter 12 &nbsp;</th>
-  </tr>
-  <tr>
-    <th>&nbsp;Chapter 13 &nbsp;</th>
-    <th>&nbsp;Chapter 14 &nbsp;</th>
-    <th>&nbsp;Chapter 15 &nbsp;</th>
-  </tr>
-  <tr>
-    <th>&nbsp;Chapter 16 &nbsp;</th>
-    <th>&nbsp;Chapter 17 &nbsp;</th>
-    <th>&nbsp;Chapter 18 &nbsp;</th>
-  </tr>
-</table>
+<form action="javascript:getchapter()">
+  <label for="chapter">Choose a car:</label>
+  <select id="chapter" name="chapter" style="font-family: inherit;">
+    <option value="1">Chapter 1</option>
+    <option value="2">Chapter 2</option>
+    <option value="3">Chapter 3</option>
+    <option value="4">Chapter 4</option>
+    <option value="5">Chapter 5</option>
+    <option value="6">Chapter 6</option>
+    <option value="7">Chapter 7</option>
+    <option value="8">Chapter 8</option>
+    <option value="9">Chapter 9</option>
+    <option value="10">Chapter 10</option>
+    <option value="11">Chapter 11</option>
+    <option value="12">Chapter 12</option>
+    <option value="13">Chapter 13</option>
+    <option value="14">Chapter 14</option>
+    <option value="15">Chapter 15</option>
+    <option value="16">Chapter 16</option>
+    <option value="17">Chapter 17</option>
+    <option value="18">Chapter 18</option>
+  </select>
+  <input type="submit" value="Next" style="font-family: inherit;">
+</form>
+<script>
+function getchapter() {
+	var chapter = document.getElementById("chapter").value
+    	document.body.innerHTML = chapter
+}
+</script>
 </body>
 </html>
