@@ -56,9 +56,9 @@ table, th, td {
 
 <div style="display: none;" id="shlokasting">
 <h1>Chapter <span id="chapteradd"></span></h1>
-        <form action="javascript:getchapter()">
-  <label for="chapter">Choose a shloka to explore:</label>
-  <select id="chapter" name="chapter" style="font-family: inherit;">
+        <form action="javascript:getshloka()">
+  <label for="test">Choose a shloka to explore:</label>
+  <select id="shloka" name="test" style="font-family: inherit;">
     <option value="all">Full chapter</option>
     
   </select>
@@ -67,8 +67,9 @@ table, th, td {
 </form>
         <!-- footer -->
         <hr>
-        <footer><a href="/mobile">Choose shloka</a></footer>
+        <footer><a href="/mobile">Go home</a></footer>
 </div>
+
 
 <script>
 var chapter = ""
@@ -78,7 +79,16 @@ function getchapter() {
     	document.getElementById("chapterstest").style = "display: none;"
     	document.getElementById("shlokasting").style = "display: block;"
         document.getElementById("chapteradd").innerHTML = chapter
+        for (var i = 0; i < parseInt(listshlokas[chapter]) + 1; i++) {
+          createnewoption = document.createElement("option")
+          createnewoption.innerHTML = i.toString()
+          createnewoption.value = i.toString()
+          test = document.getElementById("shloka")
+          test.appendChild(createnewoption)
+        }
 }
+
+
 </script>
 </body>
 </html>
