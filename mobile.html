@@ -24,11 +24,12 @@ table, th, td {
 </style>
 </head>
 <body>
+<div id="chapterstest" style="display: block;">
 <h1>Bhagavad Gita</h1>
 <hr>
 <p>Choose a chapter:</p>
 <form action="javascript:getchapter()">
-  <label for="chapter">Choose a car:</label>
+  <label for="chapter">Choose a chapter to explore:</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
     <option value="1">Chapter 1</option>
     <option value="2">Chapter 2</option>
@@ -51,15 +52,32 @@ table, th, td {
   </select>
   <input type="submit" value="Next" style="font-family: inherit;">
 </form>
+</div>
+
+<div style="display: none;" id="shlokasting">
+<h1>Chapter <span id="chapteradd"></span></h1>
+        <form action="javascript:getchapter()">
+  <label for="chapter">Choose a shloka to explore:</label>
+  <select id="chapter" name="chapter" style="font-family: inherit;">
+    <option value="all">Full chapter</option>
+    
+  </select>
+  
+  <input type="submit" value="Next" style="font-family: inherit;">
+</form>
+        <!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Choose shloka</a></footer>
+</div>
 
 <script>
+var chapter = ""
 function getchapter() {
 	var chapter = document.getElementById("chapter").value
-    	document.body.innerHTML = `
-        ${chapter}
-        <hr>
-        <footer><a href="/mobile">Go home</a></footer>
-`
+    var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "29", "28", "30", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    	document.getElementById("chapterstest").style = "display: none;"
+    	document.getElementById("shlokasting").style = "display: block;"
+        document.getElementById("chapteradd").innerHTML = chapter
 }
 </script>
 </body>
