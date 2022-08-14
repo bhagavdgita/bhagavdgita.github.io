@@ -27,7 +27,6 @@ table, th, td {
 <div id="chapterstest" style="display: block;">
 <h1>Bhagavad Gita</h1>
 <hr>
-<p>Choose a chapter:</p>
 <form action="javascript:getchapter()">
   <label for="chapter">Choose a chapter to explore:</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
@@ -56,6 +55,7 @@ table, th, td {
 
 <div style="display: none;" id="shlokasting">
 <h1>Chapter <span id="chapteradd"></span></h1>
+<hr>
         <form action="javascript:getshloka()">
   <label for="test">Choose a shloka to explore:</label>
   <select id="shloka" name="test" style="font-family: inherit;">
@@ -71,6 +71,30 @@ table, th, td {
 </div>
 
 
+
+
+
+
+
+
+<div style="display: none;" id="finalshloka">
+<h1>Chapter <span id="chapteradd1"></span>, Shloka <span id="shlokadd"></span></h1>
+
+<hr>
+
+<div id="theshloka">
+
+</div>
+<div id="themeaning">
+
+</div>
+
+<!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Go home</a></footer>
+</div>
+
+
 <script>
 var chapter = ""
 function getchapter() {
@@ -79,7 +103,7 @@ function getchapter() {
     	document.getElementById("chapterstest").style = "display: none;"
     	document.getElementById("shlokasting").style = "display: block;"
         document.getElementById("chapteradd").innerHTML = chapter
-        for (var i = 0; i < parseInt(listshlokas[chapter]) + 1; i++) {
+        for (var i = 1; i < parseInt(listshlokas[chapter]) + 1; i++) {
           createnewoption = document.createElement("option")
           createnewoption.innerHTML = i.toString()
           createnewoption.value = i.toString()
@@ -89,7 +113,11 @@ function getchapter() {
 }
 
 function getshloka() {
-	
+	var shloka = document.getElementById("shloka").value
+    document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("finalshloka").style = "display: block;"
+    document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
+    document.getElementById("shlokadd").innerHTML = shloka
 }
 </script>
 </body>
