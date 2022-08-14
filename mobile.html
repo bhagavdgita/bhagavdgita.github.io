@@ -130,6 +130,32 @@ function getshloka() {
     document.getElementById("shlokasting").style = "display: none;"
     document.getElementById("fullchapter").style = "display: block;"
     	document.getElementById("chapteradd2").innerHTML = document.getElementById("chapter").value
+    const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/', options)
+	.then(response => response.json())
+	.then(response => {
+    	var result = ""
+    	response.forEach(item => {
+        	result = result + item.transliteration.replaceAll('\n', '<br>')
+            result = result + "<br><br>"
+        })
+        document.getElementById("theshlokas").innerHTML = result
+    })
+	.catch(err => console.error(err));
+    
+    
+    
+    
+    
+    
+    
     } else {
     
     document.getElementById("shlokasting").style = "display: none;"
