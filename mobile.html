@@ -51,10 +51,15 @@ table, th, td {
   </select>
   <input type="submit" value="Next" style="font-family: inherit;">
 </form>
+
 <script>
 function getchapter() {
 	var chapter = document.getElementById("chapter").value
-    	document.body.innerHTML = chapter
+    	document.body.innerHTML = `
+        ${chapter}
+        <hr>
+        <footer><a href="/">Go home</a></footer>
+`
 }
 </script>
 </body>
