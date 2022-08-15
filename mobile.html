@@ -30,6 +30,7 @@ table, th, td {
 <form action="javascript:getchapter()">
   <label for="chapter">Choose a chapter to explore:</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
+  	<option value="" selected disabled hidden>Choose</option>
     <option value="1">Chapter 1</option>
     <option value="2">Chapter 2</option>
     <option value="3">Chapter 3</option>
@@ -49,22 +50,17 @@ table, th, td {
     <option value="17">Chapter 17</option>
     <option value="18">Chapter 18</option>
   </select>
-  <input type="submit" value="Next" style="font-family: inherit;">
 </form>
 </div>
 
 <div style="display: none;" id="shlokasting">
-<h1>Chapter <span id="chapteradd"></span></h1>
-<hr>
         <form action="javascript:getshloka()">
   <label for="test">Choose a shloka to explore:</label>
-  <select id="shloka" name="test" style="font-family: inherit;">
-    <option value="all">Full chapter</option>
-    
-  </select>
-  
-  <input type="submit" value="Next" style="font-family: inherit;">
-</form>
+  <select id="shloka" name="test" style="font-family: inherit;">  
+  <option value="" selected disabled hidden>Choose</option>
+  </select><br>
+  <a href="javascript:getall()">Full chapter</a>
+  </form>
         <!-- footer -->
         <hr>
         <footer><a href="/mobile">Go home</a></footer>
@@ -107,13 +103,22 @@ Loading... Please wait
 
 
 <script>
+var e = document.getElementById("chapter");
+function onChange() {
+  var value = e.value;
+  var text = e.options[e.selectedIndex].text;
+  console.log(value);
+  getchapter();
+}
+e.onchange = onChange;
+
+
 var chapter = ""
 function getchapter() {
 	var chapter = document.getElementById("chapter").value
     var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
-    	document.getElementById("chapterstest").style = "display: none;"
+    	document.getElementById("chapterstest").style = "display: block;"
     	document.getElementById("shlokasting").style = "display: block;"
-        document.getElementById("chapteradd").innerHTML = chapter
         for (var i = 1; i < parseInt(listshlokas[chapter]) + 1; i++) {
           createnewoption = document.createElement("option")
           createnewoption.innerHTML = i.toString()
@@ -121,13 +126,23 @@ function getchapter() {
           test = document.getElementById("shloka")
           test.appendChild(createnewoption)
         }
+     document.getElementById("chapter").setAttribute("disabled", "")
+     var e = document.getElementById("shloka");
+function onChange() {
+  var value = e.value;
+  var text = e.options[e.selectedIndex].text;
+  console.log(value);
+  getshloka();
+}
+e.onchange = onChange;
 }
 
-function getshloka() {
-	var shloka = document.getElementById("shloka").value
-    
-    if (shloka == "all") {
-    document.getElementById("shlokasting").style = "display: none;"
+
+
+function getall() {
+var shloka = document.getElementById("shloka").value
+document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("chapterstest").style = "display: none;"
     document.getElementById("fullchapter").style = "display: block;"
     	document.getElementById("chapteradd2").innerHTML = document.getElementById("chapter").value
     const options = {
@@ -149,9 +164,17 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
         document.getElementById("theshlokas").innerHTML = result
     })
 	.catch(err => console.error(err));
+}
+
+function getshloka() {
+
+	var shloka = document.getElementById("shloka").value
+    
+    if (shloka == "all") {
     
     
     
+    getall()
     
     
     
@@ -159,6 +182,7 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
     } else {
     
     document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("chapterstest").style = "display: none;"
     document.getElementById("finalshloka").style = "display: block;"
     document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
     document.getElementById("shlokadd").innerHTML = shloka
