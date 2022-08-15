@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bhagavad Gita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+<div id="chapterstest" style="display: block;">
+<h1>Bhagavad Gita</h1>
+<hr>
+<form action="javascript:getchapter()">
+  <label for="chapter">Choose a chapter to explore:</label>
+  <select id="chapter" name="chapter" style="font-family: inherit;">
+  	<option value="" selected disabled hidden>Choose</option>
+    <option value="1">Chapter 1</option>
+    <option value="2">Chapter 2</option>
+    <option value="3">Chapter 3</option>
+    <option value="4">Chapter 4</option>
+    <option value="5">Chapter 5</option>
+    <option value="6">Chapter 6</option>
+    <option value="7">Chapter 7</option>
+    <option value="8">Chapter 8</option>
+    <option value="9">Chapter 9</option>
+    <option value="10">Chapter 10</option>
+    <option value="11">Chapter 11</option>
+    <option value="12">Chapter 12</option>
+    <option value="13">Chapter 13</option>
+    <option value="14">Chapter 14</option>
+    <option value="15">Chapter 15</option>
+    <option value="16">Chapter 16</option>
+    <option value="17">Chapter 17</option>
+    <option value="18">Chapter 18</option>
+  </select>
+  <input type="submit" value="Next" style="font-family: inherit;">
+</form>
+</div>
+
+<div style="display: none;" id="shlokasting">
+<h1>Chapter <span id="chapteradd"></span></h1>
+<hr>
+        <form action="javascript:getshloka()">
+  <label for="test">Choose a shloka to explore:</label>
+  <select id="shloka" name="test" style="font-family: inherit;">
+    <option value="all">Full chapter</option>
+    
+  </select>
+  
+  <input type="submit" value="Next" style="font-family: inherit;">
+</form>
+        <!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Go home</a></footer>
+</div>
+
+
+
+
+
+
+
+
+<div style="display: none;" id="finalshloka">
+<h1>Chapter <span id="chapteradd1"></span>, Shloka <span id="shlokadd"></span></h1>
+
+<hr>
+
+<div id="theshloka">
+Loading... Please wait
+</div>
+<div id="themeaning">
+
+</div>
+
+<!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Go home</a></footer>
+</div>
+
+<div style="display: none;" id="fullchapter">
+<h1>Chapter <span id="chapteradd2"></span>, Full Chapter</h1><hr>
+<div id="theshlokas">
+Loading... Please wait
+</div>
+
+<!-- footer -->
+        <hr>
+        <footer><a href="/mobile">Go home</a></footer>
+</div>
+
+
+<script>
+var e = document.getElementById("chapter");
+function onChange() {
+  var value = e.value;
+  var text = e.options[e.selectedIndex].text;
+  console.log(value);
+  getchapter();
+}
+e.onchange = onChange;
+
+
+var chapter = ""
+function getchapter() {
+	var chapter = document.getElementById("chapter").value
+    var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    	document.getElementById("chapterstest").style = "display: block;"
+    	document.getElementById("shlokasting").style = "display: block;"
+        document.getElementById("chapteradd").innerHTML = chapter
+        for (var i = 1; i < parseInt(listshlokas[chapter]) + 1; i++) {
+          createnewoption = document.createElement("option")
+          createnewoption.innerHTML = i.toString()
+          createnewoption.value = i.toString()
+          test = document.getElementById("shloka")
+          test.appendChild(createnewoption)
+        }
+}
+
+function getshloka() {
+	var shloka = document.getElementById("shloka").value
+    
+    if (shloka == "all") {
+    document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("chapterstest").style = "display: none;"
+    document.getElementById("fullchapter").style = "display: block;"
+    	document.getElementById("chapteradd2").innerHTML = document.getElementById("chapter").value
+    const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/', options)
+	.then(response => response.json())
+	.then(response => {
+    	var result = ""
+    	response.forEach(item => {
+        	result = result + item.transliteration.replaceAll('\n', '<br>')
+            result = result + "<br><br>"
+        })
+        document.getElementById("theshlokas").innerHTML = result
+    })
+	.catch(err => console.error(err));
+    
+    
+    
+    
+    
+    
+    
+    } else {
+    
+    document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("finalshloka").style = "display: block;"
+    document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
+    document.getElementById("shlokadd").innerHTML = shloka
+    
+    // get shloka from api
+
+    const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/' + shloka + '/', options)
+	.then(response => response.json())
+	.then(response => {
+    document.getElementById("theshloka").innerHTML = response.transliteration.replaceAll('\n', '<br>')
+    document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
+    })
+	.catch(err => console.error(err));
+    }
+} 
+
+
+</script>
+</body>
+</html>
