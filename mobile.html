@@ -11,13 +11,12 @@
 <style>
 body {
 	font-family: 'Roboto', sans-serif;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
 }
 table, th, td {
   border: 1px solid black;
@@ -36,6 +35,7 @@ select {
 	font-size: calc(1em - 4px);
 }
 
+select { text-align-last: right; }
 </style>
 </head>
 <body>
@@ -43,34 +43,34 @@ select {
 <h1>Bhagavad Gita</h1>
 <hr>
 <form action="javascript:getchapter()">
-  <label for="chapter">Chapter:</label>
+  <label for="chapter">Chapter:&nbsp;</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
   	<option value="" selected disabled hidden>Choose</option>
-    <option value="1">Chapter 1</option>
-    <option value="2">Chapter 2</option>
-    <option value="3">Chapter 3</option>
-    <option value="4">Chapter 4</option>
-    <option value="5">Chapter 5</option>
-    <option value="6">Chapter 6</option>
-    <option value="7">Chapter 7</option>
-    <option value="8">Chapter 8</option>
-    <option value="9">Chapter 9</option>
-    <option value="10">Chapter 10</option>
-    <option value="11">Chapter 11</option>
-    <option value="12">Chapter 12</option>
-    <option value="13">Chapter 13</option>
-    <option value="14">Chapter 14</option>
-    <option value="15">Chapter 15</option>
-    <option value="16">Chapter 16</option>
-    <option value="17">Chapter 17</option>
-    <option value="18">Chapter 18</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
   </select>
 </form>
 </div>
 
 <div style="display: none;" id="shlokasting"><br>
         <form action="javascript:getshloka()">
-  <label for="test">Shloka:</label>
+  <label for="test">Shloka:&nbsp;</label>
   <select id="shloka" name="test" style="font-family: inherit;">  
   <option value="" selected disabled hidden>Choose</option>
   </select><br><br>
@@ -102,7 +102,9 @@ Loading... Please wait
 
 <!-- footer -->
         <hr>
-        <footer><a href="/mobile">Go home</a></footer>
+        <footer><a href="/mobile">Go home</a><br>
+
+        	<a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()">Next</a></footer>
 </div>
 
 <div style="display: none;" id="fullchapter">
@@ -222,6 +224,42 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
     }
 } 
 
+
+function gotoback() {
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+	var shloka = document.getElementById("shloka").value
+    var chapter = document.getElementById("chapter").value
+    document.getElementById("theshloka").innerHTML = "Loading... Please wait"
+    document.getElementById("themeaning").innerHTML = ""
+    if (shloka == 1) {
+    	document.getElementById("shloka").value = listshlokas[parseInt(chapter) - 1]
+        document.getElementById("chapter").value = parseInt(chapter) - 1
+        console.log(document.getElementById("chapter").value)
+        console.log(document.getElementById("shloka").value)
+        getshloka()
+    } else {
+    	document.getElementById("shloka").value = parseInt(shloka) - 1
+        getshloka()
+    }
+}
+
+function gottofront() {
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+	var shloka = document.getElementById("shloka").value
+    var chapter = document.getElementById("chapter").value
+    document.getElementById("theshloka").innerHTML = "Loading... Please wait"
+    document.getElementById("themeaning").innerHTML = ""
+    if (shloka == parseInt(listshlokas[chapter])) {
+    	document.getElementById("shloka").value = 1
+        document.getElementById("chapter").value = parseInt(chapter) + 1
+        console.log(document.getElementById("chapter").value)
+        console.log(document.getElementById("shloka").value)
+        getshloka()
+    } else {
+    	document.getElementById("shloka").value = parseInt(shloka) + 1
+        getshloka()
+    }
+}
 </script>
 </body>
 </html>
