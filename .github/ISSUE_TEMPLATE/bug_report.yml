@@ -51,7 +51,7 @@ body:
         - Android
         - iOS (iPhone)
   - type: dropdown
-    id: os
+    id: os-version
     attributes:
       label: What iOS or Android version are you using?
       multiple: true
