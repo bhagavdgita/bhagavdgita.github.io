@@ -28,7 +28,7 @@ body:
   - type: textarea
     id: what-happend
     attributes:
-      label: What did actually happend?
+      label: What actually happend?
       description: What was the thing that happened unexpectedly
       placeholder: ... happened instead
     validations:
