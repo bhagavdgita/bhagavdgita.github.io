@@ -19,5 +19,3 @@ Then open the file `Gita.apk` and you are all ready to go!
 ### iPhone
 
 The iOS version is pending. In the meanwhile, use the web app:
-
-https://bhagavdgita.github.io/mobile
