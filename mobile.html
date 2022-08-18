@@ -35,7 +35,20 @@ select {
 	font-size: calc(1em - 4px);
 }
 
-select { text-align-last: right; }
+option { text-align: right; }
+.leftsel { text-align-last: left;}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+.footerWrap {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding-left: auto;
+}
 </style>
 </head>
 <body>
@@ -45,7 +58,8 @@ select { text-align-last: right; }
 <form action="javascript:getchapter()">
   <label for="chapter">Chapter:&nbsp;</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
-  	<option value="" selected disabled hidden>Choose</option>
+  	<option value="" selected disabled hidden  style="text-align: left;">Choose</option>
+    <!-- <option value="dhyana" style="text-align: left;">Dhyana Shlokas</option> -->
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -80,8 +94,8 @@ select { text-align-last: right; }
   
   </div>
         <!-- footer -->
-        <hr>
-        <footer><a href="/mobile">Go home</a></footer>
+        
+        <footer class="footerWrap"><hr><a href="/mobile">Go home</a></footer>
 </div>
 
 
@@ -106,10 +120,9 @@ Loading... Please wait
 
 
 <!-- footer -->
-        <hr>
-        <footer><a href="/mobile">Go home</a><br>
+        <footer class="footerWrap"><hr><a href="/mobile">Go home</a><br>
 
-        	<a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()">Next</a></footer>
+        	<a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a></footer>
 </div>
 
 <div style="display: none;" id="fullchapter">
@@ -119,8 +132,8 @@ Loading... Please wait
 </div>
 
 <!-- footer -->
-        <hr>
-        <footer><a href="/mobile">Go home</a></footer>
+        
+        <footer class="footerWrap"><hr><a href="/mobile">Go home</a></footer>
 </div>
 
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
@@ -148,6 +161,16 @@ e.onchange = onChange;
 
 var chapter = ""
 function getchapter() {
+	
+    
+    extras = ["dhyana"]
+    
+    
+    if (extras.includes(document.getElementById("chapter").value)) {
+    
+    
+    } else {
+    
 	var chapter = document.getElementById("chapter").value
     var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
     	document.getElementById("chapterstest").style = "display: block;"
@@ -168,6 +191,7 @@ function onChange() {
   getshloka();
 }
 e.onchange = onChange;
+}
 }
 
 
