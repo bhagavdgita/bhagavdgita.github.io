@@ -50,6 +50,8 @@ body:
       options:
         - Android 5
         - iOS (iPhone)
+    validations:
+      required: true
   - type: dropdown
     id: os-version
     attributes:
@@ -76,6 +78,8 @@ body:
         - Android 11 (Red Velvet Cake)
         - Android 12 (Snow Cone)
         - Android 13 (Tiramisu)
+    validations:
+      required: true 
   - type: checkboxes
     id: terms
     attributes:
