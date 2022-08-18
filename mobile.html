@@ -74,8 +74,11 @@ select { text-align-last: right; }
   <select id="shloka" name="test" style="font-family: inherit;">  
   <option value="" selected disabled hidden>Choose</option>
   </select><br><br>
-  <a href="javascript:getall()">Full chapter</a>
+  <a href="javascript:getall()">Full Script</a>&nbsp;&nbsp;<a href="javascript:fullaudio()">Full Audio</a>
   </form>
+  <div id="invisible-audio">
+  
+  </div>
         <!-- footer -->
         <hr>
         <footer><a href="/mobile">Go home</a></footer>
@@ -123,6 +126,16 @@ Loading... Please wait
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
 <script>
+function fullaudio() {
+	document.getElementById("invisible-audio").innerHTML = `
+	<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/full.${document.getElementById("chapter").value}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>
+    `
+}
+
+
 var e = document.getElementById("chapter");
 function onChange() {
   var value = e.value;
@@ -224,7 +237,7 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
     document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>') + `<br>
 <audio controls>
 	<source src="https://bhagavdgita.github.io/audio/${document.getElementById("chapter").value}.${shloka}.m4a" type="audio/x-m4a">
-  <code> Your browser doesn't support audio tags</code>
+  <code> Your phone doesn't support audio tags</code>
 </audio>`
     })
 	.catch(err => console.error(err));
