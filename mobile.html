@@ -85,17 +85,14 @@ html {
         <form action="javascript:getshloka()">
   <label for="test">Shloka:&nbsp;</label>
   <select id="shloka" name="test" style="font-family: inherit;">  
-  <option value="" selected disabled hidden>Choose</option>
+  
   </select><br><br>
   <a href="javascript:getall()">Full Script</a>&nbsp;&nbsp;<a href="javascript:fullaudio()">Full Audio</a>
   </form>
   <div id="invisible-audio">
   
   </div>
-        <!-- footer -->
-        
-        <footer class="footerWrap"><hr><a href="/mobile">Go home</a></footer>
-</div>
+  </div>
 
 
 
@@ -174,6 +171,7 @@ function getchapter() {
     var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
     	document.getElementById("chapterstest").style = "display: block;"
     	document.getElementById("shlokasting").style = "display: block;"
+        document.getElementById("shloka").innerHTML = `<option value="" selected disabled hidden>Choose</option>`
         for (var i = 1; i < parseInt(listshlokas[chapter]) + 1; i++) {
           createnewoption = document.createElement("option")
           createnewoption.innerHTML = i.toString()
@@ -181,7 +179,6 @@ function getchapter() {
           test = document.getElementById("shloka")
           test.appendChild(createnewoption)
         }
-     document.getElementById("chapter").setAttribute("disabled", "")
      var e = document.getElementById("shloka");
 function onChange() {
   var value = e.value;
