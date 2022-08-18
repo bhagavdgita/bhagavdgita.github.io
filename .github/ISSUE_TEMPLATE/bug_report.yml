@@ -48,7 +48,7 @@ body:
       label: What operating system are you using?
       multiple: true
       options:
-        - Android
+        - Android 5
         - iOS (iPhone)
   - type: dropdown
     id: os-version
@@ -56,6 +56,7 @@ body:
       label: What iOS or Android version are you using?
       multiple: true
       options:
+        - iOS 7 and below
         - iOS 8
         - iOS 9
         - iOS 10
@@ -65,6 +66,7 @@ body:
         - iOS 14
         - iOS 15
         - iOS 16 (beta)
+        - Android Ice Cream Sandwich and below
         - Android Lollipop
         - Android Marshmallow
         - Android Nougat
