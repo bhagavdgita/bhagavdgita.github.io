@@ -1,0 +1,44 @@
+body {
+	font-family: 'Roboto', sans-serif;
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+body {
+	font-size: 24px;
+}
+
+h1 {
+	font-size: 34px;
+}
+
+h2 {
+	font-size: 32px;
+}
+
+
+select {
+	font-size: calc(1em - 4px);
+}
+
+option { text-align: right; }
+.leftsel { text-align-last: left;}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+.footerWrap {
+    width: 100%;
+    bottom: 0;
+    padding-right: 5px;
+}
