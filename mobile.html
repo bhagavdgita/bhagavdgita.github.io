@@ -214,10 +214,17 @@ document.getElementById("shlokasting").style = "display: none;"
 fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/', options)
 	.then(response => response.json())
 	.then(response => {
+    function replaceAllButLast(str, pOld, pNew) {
+  var parts = str.split(pOld)
+  if (parts.length === 1) return str
+  return parts.slice(0, -1).join(pNew) + pOld + parts.slice(-1)
+}
+    	var shloka = 1
     	var result = ""
     	response.forEach(item => {
-        	result = result + item.transliteration.replaceAll('\n', '<br>')
-            result = result + "<br><br>"
+        	result = result + replaceAllButLast(item.transliteration, "\n", "<br>")
+            result = result +  `||${document.getElementById("chapter").value}.${String(shloka)}||<br><br>`
+            shloka ++
         })
         document.getElementById("theshlokas").innerHTML = result
     })
