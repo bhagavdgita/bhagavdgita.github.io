@@ -1,3 +1,6 @@
+var showbackpage = ""
+
+
 function fullaudio() {
 	document.getElementById("invisible-audio").innerHTML = `
 	<audio controls>
@@ -6,6 +9,14 @@ function fullaudio() {
 </audio>
     `
 }
+
+
+function readbhagavadgita() {
+	showbackpage = "options"
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("read").style = "display: block;"
+}
+
 
 
 var e = document.getElementById("chapter");
@@ -56,6 +67,7 @@ e.onchange = onChange;
 
 
 function getall() {
+showbackpage = "nooptions"
 var shloka = document.getElementById("shloka").value
 document.getElementById("shlokasting").style = "display: none;"
     document.getElementById("chapterstest").style = "display: none;"
@@ -72,10 +84,17 @@ document.getElementById("shlokasting").style = "display: none;"
 fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElementById("chapter").value + '/verses/', options)
 	.then(response => response.json())
 	.then(response => {
+    function replaceAllButLast(str, pOld, pNew) {
+  var parts = str.split(pOld)
+  if (parts.length === 1) return str
+  return parts.slice(0, -1).join(pNew) + pOld + parts.slice(-1)
+}
+    	var shloka = 1
     	var result = ""
     	response.forEach(item => {
-        	result = result + item.transliteration.replaceAll('\n', '<br>')
-            result = result + "<br><br>"
+        	result = result + replaceAllButLast(item.transliteration, "\n", "<br>")
+            result = result +  `||${document.getElementById("chapter").value}.${String(shloka)}||<br><br>`
+            shloka ++
         })
         document.getElementById("theshlokas").innerHTML = result
     })
@@ -83,7 +102,7 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
 }
 
 function getshloka() {
-
+	showbackpage = "nooptions"
 	var shloka = document.getElementById("shloka").value
     
     if (shloka == "all") {
@@ -163,3 +182,26 @@ function gottofront() {
         getshloka()
     }
 }
+
+function gohome1() {
+		if (showbackpage == "options") {
+			document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: block;"
+        } else {
+        	document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: block;"
+            document.getElementById("options").style = "display: none;"
+            document.getElementById("chapter").value = ""
+            showbackpage = "options"
+        }
+}
+
+mdc.ripple.MDCRipple.attachTo(document.querySelector('button'));
+mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-fab'));
