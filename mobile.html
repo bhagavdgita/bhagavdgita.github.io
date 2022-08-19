@@ -6,6 +6,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<head>
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
 <style>
@@ -53,12 +60,43 @@ html {
     bottom: 0;
     padding-right: 5px;
 }
+button {
+	width: 100%;
+}
+.app-fab--absolute {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+@media(min-width: 1024px) {
+   .app-fab--absolute {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
 </style>
 </head>
 <body>
-	
+<div id="options">
+<h1>Bhagavad Gita</h1>
+<div class="mdc-touch-target-wrapper">
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:readbhagavadgita()">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">book</i>
+    <span class="mdc-button__label">Read the Bhagavad Gita</span>
+  </button>
+</div>
+</div>
+
+
+
+
+<div style="display: none;" id="read"  class="wrapper box">
+<p class="box">
 <div id="chapterstest" style="display: block;">
-<h2>Srimad Bhagavad Gita</h2><hr>
+<h2>Read the Srimad Bhagavad Gita</h2><hr>
 <form action="javascript:getchapter()">
   <label for="chapter">Chapter:&nbsp;</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
@@ -121,7 +159,7 @@ Loading... Please wait
 
 
 <!-- footer -->
-        <footer class="footerWrap"><hr><a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a><br><br><a href="/mobile">Go home</a>
+        <footer class="footerWrap"><hr><a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a><br><br><a href="/mobile">Go home</a><br><a href="https://github.com/bhagavdgita/bhagavdgita.github.io/issues/new/choose">Report a Bug/Feature Request</a>
 
         	</footer>
 </div>
@@ -132,13 +170,20 @@ Loading... Please wait
 Loading... Please wait
 </div>
 
+
 <!-- footer -->
         
-        <footer class="footerWrap"><hr><a href="/mobile">Go home</a></footer>
+        <footer class="footerWrap"><hr><a href="/mobile">Go home</a><br><a href="https://github.com/bhagavdgita/bhagavdgita.github.io/issues/new/choose">Report a Bug/Feature Request</a></footer>
+</div>
+<button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome1()">
+  <div class="mdc-fab__ripple"></div>
+  <span class="mdc-fab__icon material-icons">arrow_back</span>
+</button>
+
 </div>
 
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 <script>
 function fullaudio() {
 	document.getElementById("invisible-audio").innerHTML = `
@@ -148,6 +193,13 @@ function fullaudio() {
 </audio>
     `
 }
+
+
+function readbhagavadgita(){
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("read").style = "display: block;"
+}
+
 
 
 var e = document.getElementById("chapter");
@@ -312,6 +364,13 @@ function gottofront() {
         getshloka()
     }
 }
+
+function gohome1() {
+	location.reload();
+}
+
+mdc.ripple.MDCRipple.attachTo(document.querySelector('button'));
+mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-fab'));
 </script>
 </body>
 </html>
