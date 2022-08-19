@@ -185,6 +185,10 @@ Loading... Please wait
 
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 <script>
+
+var showbackpage = ""
+
+
 function fullaudio() {
 	document.getElementById("invisible-audio").innerHTML = `
 	<audio controls>
@@ -195,7 +199,8 @@ function fullaudio() {
 }
 
 
-function readbhagavadgita(){
+function readbhagavadgita() {
+	showbackpage = "options"
 	document.getElementById("options").style = "display: none;"
     document.getElementById("read").style = "display: block;"
 }
@@ -250,6 +255,7 @@ e.onchange = onChange;
 
 
 function getall() {
+showbackpage = "nooptions"
 var shloka = document.getElementById("shloka").value
 document.getElementById("shlokasting").style = "display: none;"
     document.getElementById("chapterstest").style = "display: none;"
@@ -284,7 +290,7 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
 }
 
 function getshloka() {
-
+	showbackpage = "nooptions"
 	var shloka = document.getElementById("shloka").value
     
     if (shloka == "all") {
@@ -366,7 +372,23 @@ function gottofront() {
 }
 
 function gohome1() {
-	location.reload();
+		if (showbackpage == "options") {
+			document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: block;"
+        } else {
+        	document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: block;"
+            document.getElementById("options").style = "display: none;"
+            document.getElementById("chapter").value = ""
+            showbackpage = "options"
+        }
 }
 
 mdc.ripple.MDCRipple.attachTo(document.querySelector('button'));
