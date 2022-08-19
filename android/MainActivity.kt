@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        title = "Bhagavad Gita App"
+        title = "Jaya Guru Datta"
         val webView = findViewById<WebView>(R.id.webView)
         webView.webViewClient = WebViewClient()
         webView.loadUrl("https://bhagavdgita.github.io/mobile")
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         if (webView!!.canGoBack()) {
             webView.goBack()
         } else {
-            super.onBackPressed()
+            webView.reload()
         }
     }
 }
