@@ -6,13 +6,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<head>
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-</head>
-<head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-</head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
 <style>
@@ -63,6 +59,9 @@ html {
 button {
 	width: 100%;
 }
+.test {
+	width: auto;
+}
 .app-fab--absolute {
   position: fixed;
   bottom: 1rem;
@@ -75,33 +74,76 @@ button {
     right: 1.5rem;
   }
 }
+
+.my-card-content {
+  padding: 16px;
+}
 </style>
 </head>
 <body>
 <div id="options">
-<h1>Bhagavad Gita</h1>
+<h1>Bhagavad Gita</h1><hr>
+<div class="mdc-touch-target-wrapper">
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:dashboard()">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">dashboard</i>
+    <span class="mdc-button__label">Dashboard</span>
+  </button>
+</div>
 <div class="mdc-touch-target-wrapper">
   <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:readbhagavadgita()">
     <span class="mdc-button__ripple"></span>
     <span class="mdc-button__touch"></span>
     <i class="material-icons mdc-button__icon" aria-hidden="true">book</i>
-    <span class="mdc-button__label">Read the Bhagavad Gita</span>
+    <span class="mdc-button__label">Bhagavad Gita</span>
   </button>
 </div>
 </div>
 
 
+<div id="dashboard" style="display: none;">
+<h1>Dashboard</h1><hr>
+<div class="mdc-card mdc-card--outlined">
+  <div class="mdc-card__primary-action my-card-content">
+    <h3>Verse of the day:</h3>
+    <div id="verseofday">
+    Loading... Please wait
+    </div>
+    <div id="meaning">
+    
+    </div>
+  </div>
+  <div class="mdc-card__actions">
+    <div class="mdc-card__action-buttons">
+      
+    </div>
+    <div class="mdc-card__action-icons">
+      <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading test" onclick="javascript:shareverse()">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    
+    <span class="mdc-button__label"><i class="material-icons mdc-button__icon" aria-hidden="true">share</i><span>&nbsp;</span>Share</span>
+  </button>
+    </div>
+  </div>
+</div>
+<button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome2()">
+  <div class="mdc-fab__ripple"></div>
+  <span class="mdc-fab__icon material-icons">arrow_back</span>
+</button>
+</div>
 
 
 <div style="display: none;" id="read"  class="wrapper box">
 <p class="box">
 <div id="chapterstest" style="display: block;">
-<h2>Read the Srimad Bhagavad Gita</h2><hr>
+<h2>Srimad Bhagavad Gita</h2><hr>
 <form action="javascript:getchapter()">
   <label for="chapter">Chapter:&nbsp;</label>
   <select id="chapter" name="chapter" style="font-family: inherit;">
   	<option value="" selected disabled hidden  style="text-align: left;">Choose</option>
-    <!-- <option value="dhyana" style="text-align: left;">Dhyana Shlokas</option> -->
+    <option value="dhyana" style="text-align: left;">Dhyana Shlokas</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -120,6 +162,9 @@ button {
     <option value="16">16</option>
     <option value="17">17</option>
     <option value="18">18</option>
+    <option value="maha" style="text-align: left;">Gita Mahatyam</option>
+    <option value="saaram" style="text-align: left;">Gita Saaram</option>
+    <option value="aarati" style="text-align: left;">Gita Aarati</option>
   </select>
 </form>
 </div>
@@ -131,7 +176,7 @@ button {
   
   </select><br><br>
   <a href="javascript:getall()">Full Script</a>&nbsp;&nbsp;<a href="javascript:fullaudio()">Full Audio</a>
-  </form>
+  </form><br>
   <div id="invisible-audio">
   
   </div>
@@ -159,7 +204,7 @@ Loading... Please wait
 
 
 <!-- footer -->
-        <footer class="footerWrap"><hr><a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a><br><br><a href="/mobile">Go home</a><br><a href="https://github.com/bhagavdgita/bhagavdgita.github.io/issues/new/choose">Report a Bug/Feature Request</a>
+        <footer class="footerWrap"><hr><a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a>
 
         	</footer>
 </div>
@@ -169,12 +214,18 @@ Loading... Please wait
 <div id="theshlokas">
 Loading... Please wait
 </div>
-
-
-<!-- footer -->
-        
-        <footer class="footerWrap"><hr><a href="/mobile">Go home</a><br><a href="https://github.com/bhagavdgita/bhagavdgita.github.io/issues/new/choose">Report a Bug/Feature Request</a></footer>
 </div>
+
+<div style="display: none;" id="extrasshow">
+<h1><span id="chapteradd3"></span></h1><hr>
+<div id="theshlokas1">
+Loading... Please wait
+</div>
+
+<div id="audioextra">
+</div>
+</div>
+
 <button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome1()">
   <div class="mdc-fab__ripple"></div>
   <span class="mdc-fab__icon material-icons">arrow_back</span>
@@ -221,12 +272,22 @@ var chapter = ""
 function getchapter() {
 	
     
-    extras = ["dhyana"]
+    extras = ["dhyana", "aarati", "saaram", "maha"]
     
-    
+    function myNewFunction(sel) {
+  return sel.options[sel.selectedIndex].text;
+}
     if (extras.includes(document.getElementById("chapter").value)) {
     
-    
+    	showbackpage = "nooptions"
+    	document.getElementById("chapterstest").style = "display: none;"
+        document.getElementById("extrasshow").style = "display: block;"
+        document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
+        fetch('https://bhagavdgita.github.io/' + document.getElementById("chapter").value + ".txt")
+	.then(response => response.text())
+	.then(response => {
+        document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
+      })
     } else {
     
 	var chapter = document.getElementById("chapter").value
@@ -376,6 +437,7 @@ function gohome1() {
 			document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
         	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
         	document.getElementById("fullchapter").style = "display: none;"
         	document.getElementById("read").style = "display: none;"
             document.getElementById("options").style = "display: block;"
@@ -383,6 +445,7 @@ function gohome1() {
         	document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
         	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
         	document.getElementById("fullchapter").style = "display: none;"
         	document.getElementById("read").style = "display: block;"
             document.getElementById("options").style = "display: none;"
@@ -391,8 +454,62 @@ function gohome1() {
         }
 }
 
-mdc.ripple.MDCRipple.attachTo(document.querySelector('button'));
-mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-fab'));
+
+function dashboard() {
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("dashboard").style = "display: block;"
+	
+    // verse of day  			
+    fetch("https://proxy-for-cors.herokuapp.com/https://gitaapprandomshlokagen.arjunjakkipally.repl.co")
+    .then(response => response.json())
+    .then((data) => {
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + data[0] + '/verses/' + data[1] + '/', options)
+	.then(response => response.json())
+	.then(response => {
+    document.getElementById("verseofday").innerHTML = response.transliteration.replaceAll('\n', '<br>')
+    
+    document.getElementById("meaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
+    })
+	.catch(err => console.error(err));
+    
+    
+    })
+}	
+
+
+function shareverse() {
+	
+if (navigator.share) {
+  navigator.share({
+      title: 'Verse of the day',
+      text: document.getElementById("verseofday").innerHTML + document.getElementById("meaning").innerHTML
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+} else {
+  alert("Cannot share file - try again on a different device")
+}
+}
+
+text = 0
+document.querySelectorAll('button').forEach(element => {
+	mdc.ripple.MDCRipple.attachTo(document.querySelectorAll('button')[text]);
+    text++
+})
+
+function gohome2() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("options").style = "display: block;"
+}
 </script>
 </body>
 </html>
