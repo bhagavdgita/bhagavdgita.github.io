@@ -19,3 +19,7 @@ Then open the file `Gita.apk` and you are all ready to go!
 ### iPhone
 
 The iOS version is pending.
+
+## License
+
+Read a human readable notice here: https://bhagavdgita.github.io/License/
