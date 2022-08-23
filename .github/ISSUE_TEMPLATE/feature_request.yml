@@ -42,6 +42,7 @@ body:
       options:
         - Android
         - iOS (iPhone)
+        - Developer - Universal
     validations:
       required: true
   - type: dropdown
@@ -70,6 +71,8 @@ body:
         - Android 11 (Red Velvet Cake)
         - Android 12 (Snow Cone)
         - Android 13 (Tiramisu)
+        - Universal (Chrome)
+        - Universal (Safari)
     validations:
       required: true 
   - type: checkboxes
