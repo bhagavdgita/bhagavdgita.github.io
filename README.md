@@ -1,5 +1,5 @@
 # Bhagavad Gita
-A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the MIT License.
+A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the GNU Affero General Public License v3.0.
 
 ## Download
 
