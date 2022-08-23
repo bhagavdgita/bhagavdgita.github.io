@@ -150,14 +150,21 @@ A journey is a program that goals to help you in finishing reading the whole Bha
    <span class="mdc-button__ripple"></span>
    <span class="mdc-button__label" id="changebuttontext1">Go to first assigned shloka</span>
 </button>
+<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:restartjourney()" style="display: none;" id="qwerty">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">not_interested</i>
+    <span class="mdc-button__label">Erase journey</span>
+  </button>
 <div id="donetoday">
-<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:updateshlok()" style="width: auto; display: block;" id="qlmz">
+<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:updateshlok()" style="display: block;" id="qlmz">
     <span class="mdc-button__ripple"></span>
     <span class="mdc-button__touch"></span>
     <i class="material-icons mdc-button__icon" aria-hidden="true">check</i>
     <span class="mdc-button__label"><span id="changephrase">Did you finish</span> <span id="shlokasfortoday"></span> shlokas for today<span id="removequestion">?</span></span>
   </button>
-  </div>
+  </div>  
+  
 </div>
 
 <script>
@@ -202,6 +209,7 @@ function updateshlok() {
     {
     	document.getElementById("donetoday").innerHTML = "You are done with the full journey. Congrats, you read the full Bhagavad Gita! Next read the Gita Mahatmyam."
         document.getElementById("firstassignedbutton").disabled = "true"
+        document.getElementById("qwerty").style = "display: block;"
     }
     
     localStorage.setItem("progress", document.getElementById("shlokasdone").value)
@@ -245,6 +253,7 @@ function startjourney366() {
 
 function restartjourney() {
 	localStorage.clear();
+    window.location.reload();
 }
 
 if (localStorage.getItem("journeystarted") == "true") {
