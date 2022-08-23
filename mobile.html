@@ -9,7 +9,6 @@
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
 <style>
 body {
@@ -104,8 +103,9 @@ button {
 
 <div id="dashboard" style="display: none;">
 <h1>Dashboard</h1><hr>
+
 <div class="mdc-card mdc-card--outlined">
-  <div class="mdc-card__primary-action my-card-content">
+  <div class="mdc-card__primary-action my-card-content"  style="font-size: 18px;">
     <h3>Verse of the day:</h3>
     <div id="verseofday">
     Loading... Please wait
@@ -128,11 +128,151 @@ button {
     </div>
   </div>
 </div>
+
+<br><br>
+<h2>Journey:</h2>
+<div id="startjourneybutton">
+<button class="mdc-button mdc-button--outlined" onclick="javascript:startjourney28()">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label">Start a month journey</span>
+</button>
+<button class="mdc-button mdc-button--outlined" onclick="javascript:startjourney366()">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label">Start a year journey</span>
+</button>
+<p style="font-size: 16px;"><b>What is a journey?</b><br>
+A journey is a program that goals to help you in finishing reading the whole Bhagavad Gita in a year or in a month.</p>
+</div>
+
+<div id="journeyinprogress" style="display: none;">
+<progress id="shlokasdone" max="701" value="0"></progress>&nbsp;<span style="font-size: calc(1em - 4px);"><span id="current">0</span>/<span id="end"></span></span>
+<button class="mdc-button mdc-button--outlined" onclick="javascript:gotoshlok()" id="firstassignedbutton">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label" id="changebuttontext1">Go to first assigned shloka</span>
+</button>
+<div id="donetoday">
+<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:updateshlok()" style="width: auto; display: block;" id="qlmz">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">check</i>
+    <span class="mdc-button__label"><span id="changephrase">Did you finish</span> <span id="shlokasfortoday"></span> shlokas for today<span id="removequestion">?</span></span>
+  </button>
+  </div>
+</div>
+
+<script>
+function undisable() {
+	document.getElementById("qlmz").removeAttribute("disabled")
+}
+
+
+setInterval(() => {
+	if (parseInt(localStorage.getItem("c")) < new Date().getDate()) {
+    	console.log("day is over")
+        undisable()
+    }
+}, 500)
+
+function updateshlok() {
+	document.getElementById("changephrase").innerHTML = "Finished"
+    document.getElementById("removequestion").innerHTML = ""
+	document.getElementById("qlmz").disabled = "true"
+    const d = new Date();
+    var c = d.getDate()
+    localStorage.setItem("c", String(c))
+    localStorage.setItem("timesfinished", String(parseInt(localStorage.getItem("timesfinished")) + 1))
+    document.getElementById("current").innerHTML = String(parseInt(    document.getElementById("current").innerHTML) + 1)
+	console.log("Finished shlokas for today")
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    var shlokascomplete = [localStorage.getItem("shlok").split(".")[0], localStorage.getItem("shlok").split(".")[1]]
+    document.getElementById("shlokasdone").value = String(parseInt(document.getElementById("shlokasdone").value) + parseInt(localStorage.getItem("journey")))
+    if (localStorage.getItem("shlok").split(".")[1] == listshlokas[localStorage.getItem("shlok").split(".")[0]]) {
+    	localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + ".1")
+    } else {
+    
+    if (parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) > parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])) {
+    
+    localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) - parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])))
+    	
+        } else {
+        localStorage.setItem("shlok", localStorage.getItem("shlok").split(".")[0] + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey"))))
+        }
+    }
+    if (localStorage.getItem("shlok").split(".")[0] == "19")
+    {
+    	document.getElementById("donetoday").innerHTML = "You are done with the full journey. Congrats, you read the full Bhagavad Gita! Next read the Gita Mahatmyam."
+        document.getElementById("firstassignedbutton").disabled = "true"
+    }
+    
+    localStorage.setItem("progress", document.getElementById("shlokasdone").value)
+}
+
+function gotoshlok() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("chapter").value = localStorage.getItem("shlok").split(".")[0]
+    getchapter()
+    document.getElementById("shloka").value = localStorage.getItem("shlok").split(".")[1]
+    getshloka()
+    document.getElementById("read").style = "display: block;"
+}
+
+
+  
+function startjourney() {
+	document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    document.getElementById("shlokasdone").value = "0"
+    localStorage.setItem("timesfinished", "0")
+    localStorage.setItem("journeystarted", "true")
+}
+function startjourney28() {
+	startjourney()
+	localStorage.setItem('journey', '26');
+    localStorage.setItem('journey1', '28');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "28"
+    document.getElementById("shlokasfortoday").innerHTML = "26"
+}
+
+function startjourney366() {
+	startjourney()
+    localStorage.setItem('journey', '2');
+    localStorage.setItem('journey1', '365');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "365"
+    document.getElementById("shlokasfortoday").innerHTML = "2"
+}
+
+function restartjourney() {
+	localStorage.clear();
+}
+
+if (localStorage.getItem("journeystarted") == "true") {
+	console.log("journey has started")
+    document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    var times = localStorage.getItem("timesfinished");
+    localStorage.setItem("shlok", "1.1")
+    localStorage.setItem("timesfinished", "0")
+    for(var i = 0; i < parseInt(times); i++){
+        updateshlok()
+    }
+    document.getElementById("end").innerHTML = localStorage.getItem("journey1")
+} else {
+	console.log("no journey\ndetected by using journeystarted in storage")
+}
+
+</script>
+
+
 <button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome2()">
-  <div class="mdc-fab__ripple"></div>
+  <span class="mdc-fab__ripple"></span>
   <span class="mdc-fab__icon material-icons">arrow_back</span>
 </button>
+ 
 </div>
+
+
 
 
 <div style="display: none;" id="read"  class="wrapper box">
@@ -221,20 +361,24 @@ Loading... Please wait
 <div id="theshlokas1">
 Loading... Please wait
 </div>
-
-<div id="audioextra">
+<br>
+<div id="theaudio3">
 </div>
 </div>
 
 <button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome1()">
-  <div class="mdc-fab__ripple"></div>
+  <span class="mdc-fab__ripple"></span>
   <span class="mdc-fab__icon material-icons">arrow_back</span>
 </button>
 
 </div>
 
 
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="arjakkipally" data-description="Support me on Buy me a coffee!" data-message="" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<br><br>
+<a href="https://www.buymeacoffee.com/arjakkipally"><img src="https://uc80e5ba3058c2d15b2a77972a8b.previews.dropboxusercontent.com/p/thumb/ABoF5NVuGgD1ay8tyMC4zWw2RpPEWHvPz090HOcQPA3_858yjSDyXcw1Jo51kB0k7oUiAF3PXJcdGob_AkO69OQpyAVl3gk68Ifck0981nQ1T0PK0N_BBCjGw6jM0QDZMPkLk3sygHJOpOat0X3DuHEYmbYmhbhjjUWFG9rF8q_8Bcq5Hp3hASfpmwM3ExyuMI4DTvy9FrsfBgCJkZrP4qjPnTD0V3ZolqvPH-syvT_FqVbLUMM7VdgCf-TXX4rdsDrggFP2QhYvM_NY7cRk2pvOakK7enEqcOzIxW-L6i0ym3ymaV60jj0b6LLTbRBbKmDQaMEunbBERzB6iBQGYVXJoTS7r0YYhqTLJpD_RGGhOTiw9lvpWvUOzahxd7xbCTg/p.png" width="100"></a>
+
+
 <script>
 
 var showbackpage = ""
@@ -278,7 +422,8 @@ function getchapter() {
   return sel.options[sel.selectedIndex].text;
 }
     if (extras.includes(document.getElementById("chapter").value)) {
-    
+    	console.log("viewing one of the following:")
+        console.log(extras)
     	showbackpage = "nooptions"
     	document.getElementById("chapterstest").style = "display: none;"
         document.getElementById("extrasshow").style = "display: block;"
@@ -287,6 +432,12 @@ function getchapter() {
 	.then(response => response.text())
 	.then(response => {
         document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
+        document.getElementById("theaudio3").innerHTML = `
+	<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/full.${document.getElementById("chapter").value}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>
+    `
       })
     } else {
     
@@ -345,7 +496,9 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
             result = result +  `||${document.getElementById("chapter").value}.${String(shloka)}||<br><br>`
             shloka ++
         })
-        document.getElementById("theshlokas").innerHTML = result
+        document.getElementById("theshlokas").innerHTML = result;
+        
+        
     })
 	.catch(err => console.error(err));
 }
@@ -479,8 +632,6 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + data[0] + '/verses/
     document.getElementById("meaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
     })
 	.catch(err => console.error(err));
-    
-    
     })
 }	
 
@@ -510,6 +661,9 @@ function gohome2() {
 	document.getElementById("dashboard").style = "display: none;"
     document.getElementById("options").style = "display: block;"
 }
+
+
+
 </script>
 </body>
 </html>
