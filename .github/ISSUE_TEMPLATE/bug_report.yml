@@ -50,12 +50,13 @@ body:
       options:
         - Android
         - iOS (iPhone)
+        - Developer - Universal
     validations:
       required: true
   - type: dropdown
     id: os-version
     attributes:
-      label: What iOS or Android version are you using?
+      label: What OS version are you using?
       multiple: true
       options:
         - iOS 7 and below
@@ -78,6 +79,8 @@ body:
         - Android 11 (Red Velvet Cake)
         - Android 12 (Snow Cone)
         - Android 13 (Tiramisu)
+        - Universal (Chrome)
+        - Universal (Safari)
     validations:
       required: true 
   - type: checkboxes
