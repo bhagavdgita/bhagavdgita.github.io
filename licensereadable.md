@@ -55,3 +55,6 @@ No warranties are given. The license may not give you all of the permissions nec
 We are not liable for anything that happens.
 
 If you have any questions about this license and how you can use these recordings, please contact jakkipally@gmail.com
+
+
+This work is provided by Rohan Jakkipally and used with permission.
