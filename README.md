@@ -14,7 +14,7 @@ https://bhagavdgita.github.io/packages/Gita.apk
 
 Then open the file `Gita.apk` and you are all ready to go!
 
-(size: 4.3 MB)
+(size: 4.09 MB)
 
 ### iPhone
 
