@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
         webView.loadUrl("https://bhagavdgita.github.io/mobile")
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.databaseEnabled = true
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
     }
     override fun onBackPressed() {
         if (webView!!.canGoBack()) {
