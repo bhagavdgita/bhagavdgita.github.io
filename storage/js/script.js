@@ -1,3 +1,107 @@
+function undisable() {
+	document.getElementById("qlmz").removeAttribute("disabled")
+}
+
+
+setInterval(() => {
+	if (parseInt(localStorage.getItem("c")) < new Date().getDate()) {
+    	console.log("day is over")
+        undisable()
+    }
+}, 500)
+
+function updateshlok() {
+	document.getElementById("changephrase").innerHTML = "Finished"
+    document.getElementById("removequestion").innerHTML = ""
+	document.getElementById("qlmz").disabled = "true"
+    const d = new Date();
+    var c = d.getDate()
+    localStorage.setItem("c", String(c))
+    localStorage.setItem("timesfinished", String(parseInt(localStorage.getItem("timesfinished")) + 1))
+    document.getElementById("current").innerHTML = String(parseInt(    document.getElementById("current").innerHTML) + 1)
+	console.log("Finished shlokas for today")
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    var shlokascomplete = [localStorage.getItem("shlok").split(".")[0], localStorage.getItem("shlok").split(".")[1]]
+    document.getElementById("shlokasdone").value = String(parseInt(document.getElementById("shlokasdone").value) + parseInt(localStorage.getItem("journey")))
+    if (localStorage.getItem("shlok").split(".")[1] == listshlokas[localStorage.getItem("shlok").split(".")[0]]) {
+    	localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + ".1")
+    } else {
+    
+    if (parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) > parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])) {
+    
+    localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) - parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])))
+    	
+        } else {
+        localStorage.setItem("shlok", localStorage.getItem("shlok").split(".")[0] + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey"))))
+        }
+    }
+    if (localStorage.getItem("shlok").split(".")[0] == "19")
+    {
+    	document.getElementById("donetoday").innerHTML = "You are done with the full journey. Congrats, you read the full Bhagavad Gita! Next read the Gita Mahatmyam."
+        document.getElementById("firstassignedbutton").disabled = "true"
+        document.getElementById("qwerty").style = "display: block;"
+    }
+    
+    localStorage.setItem("progress", document.getElementById("shlokasdone").value)
+}
+
+function gotoshlok() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("chapter").value = localStorage.getItem("shlok").split(".")[0]
+    getchapter()
+    document.getElementById("shloka").value = localStorage.getItem("shlok").split(".")[1]
+    getshloka()
+    document.getElementById("read").style = "display: block;"
+}
+
+
+  
+function startjourney() {
+	document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    document.getElementById("shlokasdone").value = "0"
+    localStorage.setItem("timesfinished", "0")
+    localStorage.setItem("journeystarted", "true")
+}
+function startjourney28() {
+	startjourney()
+	localStorage.setItem('journey', '26');
+    localStorage.setItem('journey1', '28');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "28"
+    document.getElementById("shlokasfortoday").innerHTML = "26"
+}
+
+function startjourney366() {
+	startjourney()
+    localStorage.setItem('journey', '2');
+    localStorage.setItem('journey1', '365');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "365"
+    document.getElementById("shlokasfortoday").innerHTML = "2"
+}
+
+function restartjourney() {
+	localStorage.clear();
+    window.location.reload();
+}
+
+if (localStorage.getItem("journeystarted") == "true") {
+	console.log("journey has started")
+    document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    var times = localStorage.getItem("timesfinished");
+    localStorage.setItem("shlok", "1.1")
+    localStorage.setItem("timesfinished", "0")
+    for(var i = 0; i < parseInt(times); i++){
+        updateshlok()
+    }
+    document.getElementById("end").innerHTML = localStorage.getItem("journey1")
+} else {
+	console.log("no journey\ndetected by using journeystarted in storage")
+}
+
+
 var showbackpage = ""
 
 
@@ -33,12 +137,29 @@ var chapter = ""
 function getchapter() {
 	
     
-    extras = ["dhyana"]
+    extras = ["dhyana", "aarati", "saaram", "maha"]
     
-    
+    function myNewFunction(sel) {
+  return sel.options[sel.selectedIndex].text;
+}
     if (extras.includes(document.getElementById("chapter").value)) {
-    
-    
+    	console.log("viewing one of the following:")
+        console.log(extras)
+    	showbackpage = "nooptions"
+    	document.getElementById("chapterstest").style = "display: none;"
+        document.getElementById("extrasshow").style = "display: block;"
+        document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
+        fetch('https://bhagavdgita.github.io/' + document.getElementById("chapter").value + ".txt")
+	.then(response => response.text())
+	.then(response => {
+        document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
+        document.getElementById("theaudio3").innerHTML = `
+	<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/full.${document.getElementById("chapter").value}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>
+    `
+      })
     } else {
     
 	var chapter = document.getElementById("chapter").value
@@ -96,7 +217,9 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
             result = result +  `||${document.getElementById("chapter").value}.${String(shloka)}||<br><br>`
             shloka ++
         })
-        document.getElementById("theshlokas").innerHTML = result
+        document.getElementById("theshlokas").innerHTML = result;
+        
+        
     })
 	.catch(err => console.error(err));
 }
@@ -188,6 +311,7 @@ function gohome1() {
 			document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
         	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
         	document.getElementById("fullchapter").style = "display: none;"
         	document.getElementById("read").style = "display: none;"
             document.getElementById("options").style = "display: block;"
@@ -195,6 +319,7 @@ function gohome1() {
         	document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
         	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
         	document.getElementById("fullchapter").style = "display: none;"
         	document.getElementById("read").style = "display: block;"
             document.getElementById("options").style = "display: none;"
@@ -203,5 +328,57 @@ function gohome1() {
         }
 }
 
-mdc.ripple.MDCRipple.attachTo(document.querySelector('button'));
-mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-fab'));
+
+function dashboard() {
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("dashboard").style = "display: block;"
+	
+    // verse of day  			
+    fetch("https://proxy-for-cors.herokuapp.com/https://gitaapprandomshlokagen.arjunjakkipally.repl.co")
+    .then(response => response.json())
+    .then((data) => {
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + data[0] + '/verses/' + data[1] + '/', options)
+	.then(response => response.json())
+	.then(response => {
+    document.getElementById("verseofday").innerHTML = response.transliteration.replaceAll('\n', '<br>')
+    
+    document.getElementById("meaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>')
+    })
+	.catch(err => console.error(err));
+    })
+}	
+
+
+function shareverse() {
+	
+if (navigator.share) {
+  navigator.share({
+      title: 'Verse of the day',
+      text: document.getElementById("verseofday").innerHTML + document.getElementById("meaning").innerHTML
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+} else {
+  alert("Cannot share file - try again on a different device")
+}
+}
+
+text = 0
+document.querySelectorAll('button').forEach(element => {
+	mdc.ripple.MDCRipple.attachTo(document.querySelectorAll('button')[text]);
+    text++
+})
+
+function gohome2() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("options").style = "display: block;"
+}
