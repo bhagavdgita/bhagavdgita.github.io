@@ -45,6 +45,9 @@ html {
 button {
 	width: 100%;
 }
+.test {
+	width: auto;
+}
 .app-fab--absolute {
   position: fixed;
   bottom: 1rem;
@@ -56,4 +59,8 @@ button {
     bottom: 1.5rem;
     right: 1.5rem;
   }
+}
+
+.my-card-content {
+  padding: 16px;
 }
