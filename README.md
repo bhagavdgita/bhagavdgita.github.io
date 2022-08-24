@@ -23,3 +23,5 @@ The iOS version is pending.
 ## License
 
 Read a human readable notice here: https://bhagavdgita.github.io/License/
+
+View the full license here: https://bhagavdgita.github.io/fulllicense.pdf
