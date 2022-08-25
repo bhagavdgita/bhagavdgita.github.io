@@ -10,6 +10,8 @@
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 <style>
 body {
 	font-family: 'Roboto', sans-serif;
@@ -150,12 +152,7 @@ A journey is a program that goals to help you in finishing reading the whole Bha
    <span class="mdc-button__ripple"></span>
    <span class="mdc-button__label" id="changebuttontext1">Go to first assigned shloka</span>
 </button>
-<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:restartjourney()" style="display: none;" id="qwerty">
-    <span class="mdc-button__ripple"></span>
-    <span class="mdc-button__touch"></span>
-    <i class="material-icons mdc-button__icon" aria-hidden="true">not_interested</i>
-    <span class="mdc-button__label">Erase journey</span>
-  </button>
+
 <div id="donetoday">
 <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:updateshlok()" style="display: block;" id="qlmz">
     <span class="mdc-button__ripple"></span>
@@ -164,7 +161,12 @@ A journey is a program that goals to help you in finishing reading the whole Bha
     <span class="mdc-button__label"><span id="changephrase">Did you finish</span> <span id="shlokasfortoday"></span> shlokas for today<span id="removequestion">?</span></span>
   </button>
   </div>  
-  
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:restartjourney()" style="display: block;" id="qwerty">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">not_interested</i>
+    <span class="mdc-button__label">Erase journey</span>
+  </button>
 </div>
 
 <script>
@@ -252,8 +254,23 @@ function startjourney366() {
 }
 
 function restartjourney() {
-	localStorage.clear();
+Swal.fire({
+  title: 'Erase journey?',
+  text: "You won't be able to revert this",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: `<span style="font-family: 'Roboto';">Erase</span>`,
+  cancelButtonText: `<span style="font-family: 'Roboto';">Cancel</span>`
+}).then((result) => {
+  if (result.value) {
+    localStorage.clear();
     window.location.reload();
+  }
+})
+	
+    
 }
 
 if (localStorage.getItem("journeystarted") == "true") {
