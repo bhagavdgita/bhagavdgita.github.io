@@ -13,7 +13,7 @@ A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the GN
 Go to Settings > Apps > Menu > Special access > Install unknown apps.
 Then allow Chrome.
 
-Then open this in your browser:
+Then open this in Chrome:
 
 https://bhagavdgita.github.io/packages/Gita.apk
 
