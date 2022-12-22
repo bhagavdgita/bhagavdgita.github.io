@@ -23,7 +23,7 @@ Then open the file `Gita.apk` and you are all ready to go!
 
 ### iPhone
 
-The iOS version is pending.
+The iOS version is in devolopment, and no way to send to other people.
 
 ## License
 
