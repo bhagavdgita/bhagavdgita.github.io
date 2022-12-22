@@ -37,3 +37,7 @@ View the audio license here: https://latex.artofproblemsolving.com/miscpdf/psqhu
 
 ## Credits
 https://latex.artofproblemsolving.com/miscpdf/qxrypkah.pdf
+
+
+
+![Gita](https://user-images.githubusercontent.com/68869672/209044835-53ebd45e-4dd3-4c30-9165-fcd786564f34.png)
