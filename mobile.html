@@ -667,7 +667,7 @@ function shareverse() {
 if (navigator.share) {
   navigator.share({
       title: 'Verse of the day',
-      text: document.getElementById("verseofday").innerHTML + document.getElementById("meaning").innerHTML
+      text: document.getElementById("verseofday").innerText + document.getElementById("meaning").innerText
     }).then(() => {
       console.log('Thanks for sharing!');
     })
