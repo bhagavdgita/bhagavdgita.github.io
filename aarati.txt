@@ -1,0 +1,2 @@
+<!-- This text document should be viewed by using HTML-->
+<iframe src="https://docs.google.com/gview?url=https://bhagavdgita.github.io/scriptpdf/aarati.pdf&embedded=true" style="width:100%; height:500px;" frameborder="0"></iframe>
