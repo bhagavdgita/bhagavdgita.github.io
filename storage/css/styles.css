@@ -64,3 +64,10 @@ button {
 .my-card-content {
   padding: 16px;
 }
+
+.mainta { text-align: center; padding: 150px; }
+  h1.mainta { font-size: 50px; }
+  .mainta { font: 20px Helvetica, sans-serif; color: #333;}
+  article.mainta { display: block; text-align: left; width: 650px; margin: 0 auto; }
+  a.mainta { color: #dc8100 !important; text-decoration: none !important; }
+  a:hover.mainta { color: #333; text-decoration: none; }
