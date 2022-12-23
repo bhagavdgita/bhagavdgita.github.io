@@ -82,8 +82,23 @@ function startjourney366() {
 }
 
 function restartjourney() {
-	localStorage.clear();
+Swal.fire({
+  title: 'Erase journey?',
+  text: "You won't be able to revert this",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: `<span style="font-family: 'Roboto';">Erase</span>`,
+  cancelButtonText: `<span style="font-family: 'Roboto';">Cancel</span>`
+}).then((result) => {
+  if (result.value) {
+    localStorage.clear();
     window.location.reload();
+  }
+})
+	
+    
 }
 
 if (localStorage.getItem("journeystarted") == "true") {
@@ -149,7 +164,7 @@ function getchapter() {
     	document.getElementById("chapterstest").style = "display: none;"
         document.getElementById("extrasshow").style = "display: block;"
         document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
-        fetch('https://bhagavdgita.github.io/' + document.getElementById("chapter").value + ".txt")
+        fetch('https://bhagavdgita.github.io/text/' + document.getElementById("chapter").value + ".txt")
 	.then(response => response.text())
 	.then(response => {
         document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
@@ -308,7 +323,8 @@ function gottofront() {
 
 function gohome1() {
 		if (showbackpage == "options") {
-			document.getElementById("finalshloka").style = "display: none;"
+			
+            document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
         	document.getElementById("chapterstest").style = "display: block;"
             document.getElementById("extrasshow").style = "display: none;"
@@ -334,7 +350,7 @@ function dashboard() {
     document.getElementById("dashboard").style = "display: block;"
 	
     // verse of day  			
-    fetch("https://proxy-for-cors.herokuapp.com/https://gitaapprandomshlokagen.arjunjakkipally.repl.co")
+    fetch("https://gitaapprandomshlokagen.arjunjakkipally.repl.co")
     .then(response => response.json())
     .then((data) => {
 const options = {
@@ -362,7 +378,7 @@ function shareverse() {
 if (navigator.share) {
   navigator.share({
       title: 'Verse of the day',
-      text: document.getElementById("verseofday").innerHTML + document.getElementById("meaning").innerHTML
+      text: document.getElementById("verseofday").innerText + document.getElementById("meaning").innerText
     }).then(() => {
       console.log('Thanks for sharing!');
     })
@@ -382,3 +398,45 @@ function gohome2() {
 	document.getElementById("dashboard").style = "display: none;"
     document.getElementById("options").style = "display: block;"
 }
+
+
+function mainta(){
+  document.getElementById("mainta").style.display = "block"
+  document.getElementById("finalshloka").style = "display: none;"
+  document.getElementById("shlokasting").style = "display: none;"
+  document.getElementById("chapterstest").style = "display: none;"
+  document.getElementById("extrasshow").style = "display: none;"
+  document.getElementById("fullchapter").style = "display: none;"
+  document.getElementById("read").style = "display: none;"
+  document.getElementById("options").style = "display: none;"
+  document.getElementById("finalshloka").style = "display: none;"
+  document.getElementById("shlokasting").style = "display: none;"
+  document.getElementById("chapterstest").style = "display: none;"
+  document.getElementById("extrasshow").style = "display: none;"
+  document.getElementById("fullchapter").style = "display: none;"
+  document.getElementById("read").style = "display: none;"
+  document.getElementById("options").style = "display: none;"
+  document.getElementById("chapter").value = ""
+  
+}
+
+function unmainta() {
+document.getElementById("mainta").style.display = "none"
+document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: block;"
+}
+
+
+// Uncomment for maintainence:
+// mainta()
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E6LF33ZH9Q');
