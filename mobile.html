@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Bhagavad Gita</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,7 +96,6 @@ button {
 
     <h1>We&rsquo;ll be back soon!</h1>
     <div>
-    
         <p>Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:jakkipally@gmail.com">contact us</a>, otherwise we&rsquo;ll be back online shortly!</p>
         <p>&mdash; The Bhagavad Gita Team</p>
     </div>
@@ -144,14 +143,7 @@ button {
     <div class="mdc-card__action-buttons">
       
     </div>
-    <div class="mdc-card__action-icons">
-      <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading test" onclick="javascript:shareverse()">
-    <span class="mdc-button__ripple"></span>
-    <span class="mdc-button__touch"></span>
     
-    <span class="mdc-button__label"><i class="material-icons mdc-button__icon" aria-hidden="true">share</i><span>&nbsp;</span>Share</span>
-  </button>
-    </div>
   </div>
 </div>
 
@@ -478,7 +470,7 @@ function getchapter() {
     	document.getElementById("chapterstest").style = "display: none;"
         document.getElementById("extrasshow").style = "display: block;"
         document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
-        fetch('https://bhagavdgita.github.io/' + document.getElementById("chapter").value + ".txt")
+        fetch('https://bhagavdgita.github.io/text/' + document.getElementById("chapter").value + ".txt")
 	.then(response => response.text())
 	.then(response => {
         document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
@@ -747,7 +739,7 @@ document.getElementById("finalshloka").style = "display: none;"
 
 
 // Uncomment for maintainence:
-mainta()
+// mainta()
 
 </script>
 
