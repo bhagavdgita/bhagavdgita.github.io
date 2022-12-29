@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,21 @@ body {
         -ms-user-select: none; 
             user-select: none; 
 }
+
+.app-fab--absolute {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+@media(min-width: 1024px) {
+   .app-fab--absolute {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -63,18 +79,6 @@ button {
 }
 .test {
 	width: auto;
-}
-.app-fab--absolute {
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-}
-
-@media(min-width: 1024px) {
-   .app-fab--absolute {
-    bottom: 1.5rem;
-    right: 1.5rem;
-  }
 }
 
 .my-card-content {
@@ -239,6 +243,7 @@ function gotoshlok() {
     getchapter()
     document.getElementById("shloka").value = localStorage.getItem("shlok").split(".")[1]
     getshloka()
+    showbackpage = "journey"
     document.getElementById("read").style = "display: block;"
 }
 
@@ -307,7 +312,7 @@ if (localStorage.getItem("journeystarted") == "true") {
 </script>
 
 
-<button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome2()">
+<button class="mdc-fab app-fab--absolute md-fab-bottom-right" aria-label="Back" onclick="javascript:gohome2()">
   <span class="mdc-fab__ripple"></span>
   <span class="mdc-fab__icon material-icons">arrow_back</span>
 </button>
@@ -414,13 +419,6 @@ Loading... Please wait
 </button>
 
 </div>
-
-
-
-<br><br>
-<a href="https://www.buymeacoffee.com/arjakkipally"><img src="https://bhagavdgita.github.io/storage/D4V_gM10.png" width="100"></a>
-
-
 <script>
 
 var showbackpage = ""
@@ -469,6 +467,7 @@ function getchapter() {
     	showbackpage = "nooptions"
     	document.getElementById("chapterstest").style = "display: none;"
         document.getElementById("extrasshow").style = "display: block;"
+        document.getElementById("shlokasting").style = "display: none;"
         document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
         fetch('https://bhagavdgita.github.io/text/' + document.getElementById("chapter").value + ".txt")
 	.then(response => response.text())
@@ -637,6 +636,15 @@ function gohome1() {
         	document.getElementById("fullchapter").style = "display: none;"
         	document.getElementById("read").style = "display: none;"
             document.getElementById("options").style = "display: block;"
+        } else if (showbackpage == "journey"){
+        	document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: none;"
+            document.getElementById("dashboard").style = "display: block;"
         } else {
         	document.getElementById("finalshloka").style = "display: none;"
         	document.getElementById("shlokasting").style = "display: none;"
