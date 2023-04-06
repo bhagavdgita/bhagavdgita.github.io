@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -579,7 +578,7 @@ fetch('https://bhagavad-gita3.p.rapidapi.com/v2/chapters/' + document.getElement
 	.then(response => response.json())
 	.then(response => {
     document.getElementById("theshloka").innerHTML = response.transliteration.replaceAll('\n', '<br>')
-    document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>') + `<br>
+    document.getElementById("themeaning").innerHTML = "<br><br>" +  response.translations[0].description.replaceAll('\n', '<br>') + `<br><br>
 <audio controls>
 	<source src="https://bhagavdgita.github.io/audio/${document.getElementById("chapter").value}.${shloka}.m4a" type="audio/x-m4a">
   <code> Your phone doesn't support audio tags</code>
