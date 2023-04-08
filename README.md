@@ -1,7 +1,5 @@
 <div align="center">
-<img src="https://user-images.githubusercontent.com/68869672/209040790-afb6efcf-e254-4274-97f5-44fdf66691bf.png" alt="bhagavad gita logo">
-
-<h1>Bhagavad Gita</h1>
+![My project-1](https://user-images.githubusercontent.com/68869672/230732166-da987553-2963-4266-a49d-aed58d40c43a.png)<h1>Bhagavad Gita</h1>
 </div>
 
 A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the GNU Affero General Public License v3.0.
@@ -37,7 +35,3 @@ View the audio license here: https://latex.artofproblemsolving.com/miscpdf/psqhu
 
 ## Credits
 https://latex.artofproblemsolving.com/miscpdf/qxrypkah.pdf
-
-
-
-![Gita](https://user-images.githubusercontent.com/68869672/209044835-53ebd45e-4dd3-4c30-9165-fcd786564f34.png)
