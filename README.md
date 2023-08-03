@@ -25,4 +25,20 @@ View the software license here: https://latex.artofproblemsolving.com/miscpdf/rt
 View the audio license here: https://latex.artofproblemsolving.com/miscpdf/psqhutkv.pdf?t=1661438796426
 
 ## Credits
-https://latex.artofproblemsolving.com/miscpdf/qxrypkah.pdf
+
+
+```
+---- Images ----
+Thank you to Freepik for multiple icons
+Thank you the Noun Project/Adobe Express for the logo/designs
+
+---- APIs ----
+Thank you to BhagavadGita.io for Gita verses API
+Thank you to Aksharamukha for script translation API
+
+---- Audio ----
+Thank you to Rohan for audio recording
+
+---- Inspiration ----
+Thank you to Avadhoota Datta Peethadhipati Jagadguru Parama Pujya Sri Sri Sri Ganapathy Sachchidananda Swamiji for inspiration to do it
+```
