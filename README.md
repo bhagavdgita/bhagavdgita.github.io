@@ -8,20 +8,11 @@ A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the GN
 
 ### Android
 
-Go to Settings > Apps > Menu > Special access > Install unknown apps.
-Then allow Chrome.
-
-Then open this in Chrome:
-
-https://bhagavdgita.github.io/packages/Gita.apk
-
-Then open the file `Gita.apk` and you are all ready to go!
-
-(size: 4.09 MB)
+Coming soon!
 
 ### iPhone
 
-The iOS version is in devolopment, and no way to send to other people.
+The iOS version currently is in development You can check the current Swift code in the `ios` directory.
 
 ## License
 
