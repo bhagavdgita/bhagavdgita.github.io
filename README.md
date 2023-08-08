@@ -16,13 +16,7 @@ The iOS version currently is in development You can check the current Swift code
 
 ## License
 
-Read a human readable notice here: https://bhagavdgita.github.io/License/
-
-View the full licenses here: https://bhagavdgita.github.io/fulllicense.pdf
-
-View the software license here: https://latex.artofproblemsolving.com/miscpdf/rtynsxsn.pdf?t=1661439384785
-
-View the audio license here: https://latex.artofproblemsolving.com/miscpdf/psqhutkv.pdf?t=1661438796426
+Code is protected by MIT License, and the audio is CC BY-NC-ND 4.0.
 
 ## Credits
 
@@ -33,8 +27,9 @@ Thank you to Freepik for multiple icons
 Thank you the Noun Project/Adobe Express for the logo/designs
 
 ---- APIs ----
-Thank you to BhagavadGita.io for Gita verses API
+Thank you to BhagavadGita.io, The Gita Project and GitaTeluguAPI for Gita verses API
 Thank you to Aksharamukha for script translation API
+Thank you to ML Kit translate for translation
 
 ---- Audio ----
 Thank you to Rohan for audio recording
