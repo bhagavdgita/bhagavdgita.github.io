@@ -2,7 +2,7 @@
 <img src="https://user-images.githubusercontent.com/68869672/230732166-da987553-2963-4266-a49d-aed58d40c43a.png"><h1>Bhagavad Gita</h1>
 </div>
 
-A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the GNU Affero General Public License v3.0.
+A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the MIT License.
 
 ## Download
 
