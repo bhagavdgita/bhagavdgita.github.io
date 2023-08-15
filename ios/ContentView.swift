@@ -13,8 +13,9 @@ import Auth0
 import Foundation
 import CryptoKit
 import MLKitTranslate
+import SwiftyJSON
 
-// UIViewRepresentables
+// UIViewRepresentables and styles
 struct WebView: UIViewRepresentable {
 
     var url: URL
@@ -30,6 +31,8 @@ struct WebView: UIViewRepresentable {
         webView.scrollView.isScrollEnabled = false
     }
 }
+
+
 
 
 // https://roddy.io/2020/09/07/add-search-bar-to-swiftui-picker/
@@ -67,6 +70,18 @@ struct SearchBar: UIViewRepresentable {
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
         }
+    }
+}
+
+struct GrowingButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding()
+            .background(.blue)
+            .foregroundStyle(.white)
+            .clipShape(Capsule())
+            .scaleEffect(configuration.isPressed ? 1.2 : 1)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
 
@@ -112,50 +127,72 @@ struct ChapterWebView: UIViewRepresentable {
 
 
 
+// an edited version of https://www.danijelavrzan.com/posts/2023/02/card-view-swiftui/
+struct CardBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .background(Color("CardBackground"))
+            .cornerRadius(20)
+            .shadow(color: Color.black.opacity(0.1), radius: 4)
+            .padding()
+    }
+}
 
-
-struct HomeView: View {
+// Container for card
+// While using container, to align at top of page, you can this
+// modifer on a VStack containing the Card and all other elements,
+// typically inside groups such as a NavigationStack:
+// .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+// This modifier will ensure that the card and all other elements will be aligned to the
+// top of the page. For an example, check HomeView
+struct Card<Content: View>: View {
+    let content: () -> Content
+    
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
     var body: some View {
-        NavigationStack {
-            ZStack {
+        VStack {
+            HStack {
+                Spacer()
                 VStack {
-                    HStack {
-                        Spacer()
-                        ZStack {
-                            Text("Welcome").font(.largeTitle)
-                        }
-                        Spacer()
-                    }
+                    content()
                 }
+                .padding()
+                Spacer()
             }
-        .navigationTitle("Home")
+            .cardBackground()
         }
     }
 }
 
 
-
-
-// Gita shlokas views ----
-
+// -- main call api function --
 func callApi(chapter: String, shloka: String) async -> Array<String> {
     do {
         var script = ""
         var meaning = ""
-        if UserDefaults.standard.string(forKey: "langid") == "IAST" {
-            print("using original text")
-            let (data, _) = try await URLSession.shared.data(from: URL(string:"https://bhagavadgitaapi.in/slok/\(chapter)/\(shloka)/")!)
-            let decodedResponse = try? JSONDecoder().decode(shlokrecive.self, from: data)
-            meaning = decodedResponse?.purohit.et ?? ""
-            script = decodedResponse?.transliteration ?? ""
-        } else {
-            let (data, _) = try await URLSession.shared.data(from: URL(string:"https://bhagavadgitaapi.in/slok/\(chapter)/\(shloka)/")!)
-            let decodedResponse = try? JSONDecoder().decode(shlokrecive.self, from: data)
-            let text = decodedResponse?.purohit.et ?? ""
-            let text2 = decodedResponse?.transliteration ?? ""
-            let (newtext, _) = try await URLSession.shared.data(from: URL(string:"https://aksharamukha-plugin.appspot.com/api/public?source=IAST&target=\(UserDefaults.standard.string(forKey: "langid") ?? "IAST")&text=\(text2.replacingOccurrences(of: "\n", with: "\\").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "Error")")!)
+        let apis = [
+            "English": "https://gita-api-v2.vercel.app/<c>/<s>",
+            "Hindi": "https://gita-api-v2.vercel.app/hindi/<c>/<s>",
+            "Telugu": "http://gita-api-v2.vercel.app/GitaTeluguAPIproxy/tel/<c>/<s>",
+            "Odia": "http://gita-api-v2.vercel.app/GitaTeluguAPIproxy/odi/<c>/<s>"
+        ]
+        let (data, _) = try await URLSession.shared.data(from: URL(string: apis[UserDefaults.standard.string(forKey: "setlang") ?? "English"]!.replacingOccurrences(of: "<c>", with: chapter).replacingOccurrences(of: "<s>", with: shloka))!)
+        let decodedResponse = try? JSONDecoder().decode(shlokrecive.self, from: data)
+        meaning = decodedResponse?.meaning ?? "error_backup"
+        script = decodedResponse?.script ?? "error_backup"
+        if script == "error_backup" || meaning == "error_backup" {
+            print("An error occured - using backup source")
+            let (backup, _) = try await URLSession.shared.data(from: URL(string: "https://bhagavadgitaapi.in/slok/" + chapter + "/" + shloka + "/")!)
+            let backupjson = try JSON(data: backup)
+            let backupresult = [backupjson["transliteration"].stringValue, backupjson["purohit"]["et"].stringValue]
+            script = backupresult[0]
+            meaning = backupresult[1] + "\n\nUsing backup source"
+        }
+        if UserDefaults.standard.string(forKey: "langid") != "IAST" {
+            let (newtext, _) = try await URLSession.shared.data(from: URL(string:"https://aksharamukha-plugin.appspot.com/api/public?source=IAST&target=\(UserDefaults.standard.string(forKey: "langid") ?? "IAST")&text=\(script.replacingOccurrences(of: "\n", with: "\\").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "Error")")!)
             script = String(data: newtext, encoding: .utf8)!.replacingOccurrences(of: "\\", with: "\n")
-            meaning = text
         }
         let newvalue = TranslateLanguage(rawValue: UserDefaults.standard.object(forKey: "trlangid") as? String ?? "en")
         if newvalue != TranslateLanguage.english {
@@ -165,9 +202,58 @@ func callApi(chapter: String, shloka: String) async -> Array<String> {
         return [script, meaning]
     }
     catch {
-        return ["Error in calling shloka...", "Wait for a few seconds and try again"]
+        return ["Jaya Guru Datta, looks like an error occurred...", "This may occur due to calling the shloka during loading. Please wait a few seconds and try again, or email me at jakkipally@gmail.com"]
     }
 }
+// -----------
+
+
+
+func shlokaOfTheDay() async -> Array<String> {
+    do {
+        let (data, _) = try await URLSession.shared.data(from: URL(string: "https://gita-api-v2.vercel.app/shlokaoftheday")!)
+        let json = try JSON(data: data)
+        let shlokaNumber = [String(json[0].int!), String(json[1].int!)]
+        let scripts = await callApi(chapter: shlokaNumber[0], shloka: shlokaNumber[1])
+        return [scripts[0], scripts[1], shlokaNumber[0], shlokaNumber[1]]
+    }
+    catch {
+        return ["Jaya Guru Datta, looks like an error occurred...", "This may occur occasionally. Please try again after some time, or email me at jakkipally@gmail.com", "", ""]
+    }
+}
+
+
+
+struct HomeView: View {
+    @State private var verse = "Getting verse... This may take some time..."
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    Card {
+                        Text("Verse of the day\n")
+                            .font(Font.body.weight(.bold))
+                        Text(verse)
+                            .task {
+                                let verses = await shlokaOfTheDay()
+                                verse = verses[0] + "\n\n" + verses[1] + "\n\nVerse number " + verses[2]+"." + verses[3]
+                            }
+                            .font(.system(size: 14))
+                            .multilineTextAlignment(.center)
+                    }
+                    
+                }
+            }
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
+            .navigationTitle("Home")
+        }
+    }
+}
+
+
+
+
+// Gita shlokas views ----
 
 // Separate function for translating text using ML Kit Translate
 func translateText(_ text: String, language: TranslateLanguage) async throws -> String {
@@ -219,21 +305,31 @@ struct GitaView: View {
     func update() {
        refresh.toggle()
     }
+    
+    @State private var titleshloka = ""
     var body: some View {
         VStack {
             //shloka and meaning
             Text(shlokadd)
                 .task(id: refresh) {
-                    shloksarr = await callApi(chapter: chapter, shloka: shloka)
-                    shlokadd = shloksarr[0]
+                    titleshloka = shloka
+                    var shloksarr2 = await callApi(chapter: chapter, shloka: shloka)
+                    if chapter == "13" && shloka == "1" {
+                        print("13 chapter 1st shloka found")
+                        titleshloka = "0/1"
+                        shloksarr2[1] = shloksarr2[1] + "\n\n This shloka is not universally found in all manuscripts. For simplicity, we set it as Shloka 1."
+                    }
+                    shlokadd = shloksarr2[0]
+                    shloksarr = shloksarr2
                 }
+                .multilineTextAlignment(.center)
                 .padding()
-            
             if !shloksarr.isEmpty {
-                Text(shloksarr[1])
+                Text(try! AttributedString(markdown: shloksarr[1], options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
                     .padding()
+                    .multilineTextAlignment(.center)
             }
-            
+        }
             //audio
             WebView(url: URL(string: "https://bhagavdgita.github.io/ios/audioplayer.html?chapter=\(chapter)&shloka=\(shloka)")!)
                 .frame(height: 100)
@@ -252,13 +348,13 @@ struct GitaView: View {
                                 self.chapter = String(Int(self.chapter)! - 1)
                                 self.shloka = shlokas[Int(self.chapter)! - 1]
                                 self.shlokadd = "Loading..."
-                                self.meaningadd = ""
+                                self.shloksarr[1] = ""
                                 self.update()
                             }
                             else {
                                 self.shloka = String(Int(self.shloka)! - 1)
                                 self.shlokadd = "Loading..."
-                                self.meaningadd = ""
+                                self.shloksarr[1] = ""
                                 self.update()
                             }
                         }
@@ -276,13 +372,13 @@ struct GitaView: View {
                             self.chapter = String(Int(self.chapter)! + 1)
                             self.shloka = "1"
                             self.shlokadd = "Loading..."
-                            self.meaningadd = ""
+                            self.shloksarr[1] = ""
                             self.update()
                         }
                         else {
                             self.shloka = String(Int(self.shloka)! + 1)
                             self.shlokadd = "Loading..."
-                            self.meaningadd = ""
+                            self.shloksarr[1] = ""
                             self.update()
                         }
                     }
@@ -290,21 +386,17 @@ struct GitaView: View {
                 .padding()
                 .disabled(nextdisabled == true)
             }
-            }
-        .navigationTitle("Chapter \(chapter), Shloka \(shloka)")
+        .navigationTitle("Chapter \(chapter), Shloka \(titleshloka)")
         
 }
 }
 
 
 struct shlokrecive: Codable {
-    let transliteration: String
-    let purohit: Purohit
+    let script: String
+    let meaning: String
 }
 
-struct Purohit: Codable {
-    let et: String
-}
 
 struct ChooseShlok: View {
     @State private var chapter = "1"
@@ -350,7 +442,6 @@ struct ChooseShlok: View {
                     ForEach(Array(1...Int(amountofshlokas)!).map{String($0)}, id: \.self) {
                         Text("\($0)")
                     }
-                    
                 }
             }
             Text("Chapter \(chapter), Shloka \(shloka)")
@@ -359,6 +450,7 @@ struct ChooseShlok: View {
                 NavigationLink(destination: GitaView(chapter: "\(chapter)", shloka: "\(shloka)")) {
                     Text("Go!")
                 }
+                .buttonStyle(.borderedProminent)
                 Spacer()
             }
             
@@ -370,6 +462,7 @@ struct ChooseShlok: View {
     }
     func bhagavadgitaChange(_ tag: String) {
         amountofshlokas = shlokas[Int(tag)! - 1]
+        shloka = "1"
     }
 }
 
@@ -393,6 +486,7 @@ struct ChapterFull: View {
                 NavigationLink(destination: ShowChapter(chapter: selectedChapter)) {
                     Text("Go!")
                 }
+                .buttonStyle(.borderedProminent)
                 Spacer()
             }
             .navigationTitle("Gita - Chapters/Full")
@@ -404,8 +498,33 @@ struct ChapterFull: View {
 
 struct ShowChapter: View {
     @State var chapter: String
-    
+    var chapters = [
+        "Dhyana Shlokas": "dhyana",
+        "Chapter 1": "1",
+        "Chapter 2": "2",
+        "Chapter 3": "3",
+        "Chapter 4": "4",
+        "Chapter 5": "5",
+        "Chapter 6": "6",
+        "Chapter 7": "7",
+        "Chapter 8": "8",
+        "Chapter 9": "9",
+        "Chapter 10": "10",
+        "Chapter 11": "11",
+        "Chapter 12": "12",
+        "Chapter 13": "13",
+        "Chapter 14": "14",
+        "Chapter 15": "15",
+        "Chapter 16": "16",
+        "Chapter 17": "17",
+        "Chapter 18": "18",
+        "Full Bhagavad Gita": "gita",
+        "Gita Mahatmyam": "mahatmyam",
+        "Gita Saram": "saram"
+    ]
     var body: some View {
+        WebView(url: URL(string: "https://bhagavdgita.github.io/ios/chapaudio.html?chapter=\(chapters[chapter] ?? "nil")".replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil))!)
+            .frame(height: 40)
         ChapterWebView(url: URL(string: "https://bhagavdgita.github.io/chapterscripts/\(chapter).pdf".replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil))!)
                 .navigationBarTitle("\(chapter)")
     }
@@ -431,6 +550,16 @@ struct Account: View {
                             LoggedIn()
                         } else {
                             NavigationStack {
+                                
+                                Text("Gita Account")
+                                    .font(Font.system(size: 50).weight(.bold))
+                                Image("Rocket")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 200, height: 200)
+                                Text("Personalize the app and get language features by creating a account. It's ***free***!")
+                                    .padding()
+                                    .multilineTextAlignment(.center)
                                 Button(action: {
                                     print(hasValidCredentials)
                                     Auth0
@@ -447,7 +576,8 @@ struct Account: View {
                                             }
                                         }
                                 }) {
-                                    Text("Login/Signup")
+                                    Text("Log in or Sign Up")
+                                        .font(Font.system(size: 30).weight(.bold))
                                 }
                                 .navigate(using: $showDestinationView) { LoggedIn() }
                             }
@@ -467,8 +597,10 @@ struct LoggedIn: View {
             credentialsManager.hasValid()
     }
     @State private var showDestinationView = false
+    // dark mode suppot ----
+    @AppStorage("isDarkMode") private var isDarkMode = false
     // languages -----
-    @AppStorage("lang") private var language = "Roman (IAST)"
+    @AppStorage("lang") private var language = "Roman/English (IAST)"
     @AppStorage("langid") private var languageid = "IAST"
     @State private var searchTerm: String = ""
     let languagesid = ["Ahom","Arab","Ariyaka","Assamese","Avestan","Balinese","BatakKaro","BatakManda","BatakPakpak","BatakSima","BatakToba","Bengali","Bhaiksuki","Brahmi","Buginese","Buhid","Burmese","Chakma","Cham","RussianCyrillic","Devanagari","Dogra","Elym","Ethi","GunjalaGondi","MasaramGondi","Grantha","GranthaPandya","Gujarati","Hanunoo","Hatr","Hebrew","Hebr-Ar","Armi","Phli","Prti","Hiragana","Katakana","Javanese","Kaithi","Kannada","Kawi","KhamtiShan","Kharoshthi","Khmer","Khojki","KhomThai","Khudawadi","Lao","LaoPali","Lepcha","Limbu","Mahajani","Makasar","Malayalam","Mani","Marchen","MeeteiMayek","Modi","Mon","Mongolian","Mro","Multani","Nbat","Nandinagari","Newa","Narb","OldPersian","Sogo","Sarb","Oriya","Pallava","Palm","Arab-Fa","PhagsPa","Phnx","Phlp","Gurmukhi","Ranjana","Rejang","HanifiRohingya","BarahaNorth","BarahaSouth","RomanColloquial","PersianDMG","HK","IAST","IASTPali","IPA","ISO","ISOPali","ISO233","ISO259","Itrans","IASTLOC","RomanReadable","HebrewSBL","SLP1","Type","Latn","Titus","Velthuis","WX","Samr","Santali","Saurashtra","Shahmukhi","Shan","Sharada","Siddham","Sinhala","Sogd","SoraSompeng","Soyombo","Sundanese","SylotiNagri","Syrn","Syre","Syrj","Tagalog","Tagbanwa","TaiLaing","Takri","Tamil","TamilExtended","TamilBrahmi","Telugu","Thaana","Thai","TaiTham","LaoTham","KhuenTham","LueTham","Tibetan","Tirhuta","Ugar","Urdu","Vatteluttu","Wancho","WarangCiti","ZanabazarSquare"]
@@ -489,6 +621,10 @@ struct LoggedIn: View {
     }
     @AppStorage("trlang") private var trlanguage = "English"
     @AppStorage("trlangid") private var trlanguageid = TranslateLanguage.english
+    
+    // real scripts
+    @AppStorage("setlang") private var setlang = "English"
+    var avallang = ["English", "Hindi", "Telugu", "Odia"]
     var body: some View {
         NavigationStack {
             Form {
@@ -531,10 +667,24 @@ struct LoggedIn: View {
                 
                 Link("Set a profile picture", destination: URL(string: "https://en.gravatar.com/")!)
                 
+                Section(header: Text("PERSONALIZATION")) {
+                    Toggle("Dark Mode", isOn: $isDarkMode)
+                    
+                    Picker("Language", selection: $setlang) {
+                        ForEach(avallang, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.navigationLink)
+                    .onChange(of: setlang) { newValue in
+                        UserDefaults.standard.set(newValue, forKey: "setlang")
+                    }
+                }
+                
                 // ------------- end user information -----------
                 // ------------- account preferences ------------
-                Section(header: Text("BETA"), footer: Text("These translations are almost always inaccurate, as translated by a translation service. We plan to improve this in the future")) {
-                    Picker("Script", selection: $language) {
+                Section(header: Text("BETA"), footer: Text("These translations/scripts are almost always inaccurate, as translated by a translation service/script converter. We plan to improve this in the future. In the meantime, we recommend looking for your language in the \"Language\" section of this app")) {
+                    Picker("Script Conversion", selection: $language) {
                         SearchBar(text: $searchTerm, placeholder: "Search Languages")
                         ForEach(filteredLang, id: \.self) {
                             Text($0)
@@ -558,14 +708,13 @@ struct LoggedIn: View {
                     .onChange(of: trlanguage) { newValue in
                         UserDefaults.standard.set(self.trlanguage, forKey: "trlang")
                         UserDefaults.standard.set(transationlangid[transationlangs.firstIndex(of: self.trlanguage)!], forKey: "trlangid")
-                        print(UserDefaults.standard.object(forKey: "trlangid"))
                     }
 
                 }
                 
                 // ----------
                 Section(header: Text("Other Settings")) {
-                    // ------------- start button ---------------
+                    // ------------- start button for logout ---------------
                     Button(action: {
                         Auth0
                             .webAuth()
@@ -610,6 +759,8 @@ struct LoggedIn: View {
 // Main struct
 struct ContentView: View {
     @EnvironmentObject var networkMonitor: NetworkMonitor
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    @State private var isPresented = false
     var body: some View {
         if networkMonitor.isConnected {
             TabView {
@@ -635,6 +786,8 @@ struct ContentView: View {
                             Text("Account")
                         }
                 }
+            .preferredColorScheme(isDarkMode ? .dark : .light)
+            .tint(.cyan)
         } else {
             // No wifi :( (Time for tea)
             VStack {
@@ -650,9 +803,17 @@ struct ContentView: View {
                     Spacer()
                     Spacer()
                 }
+                Button {
+                    isPresented.toggle()
+                } label: {
+                    Text("Retry to connect")
+                }
+                .buttonStyle(.borderedProminent)
             }
             .font(.system(size: 20))
-
+            .fullScreenCover(isPresented: $isPresented) {
+                extraView()
+            }
         }
         
     }
@@ -672,5 +833,25 @@ extension View {
             )
             .hidden()
         )
+    }
+    
+    func cardBackground() -> some View {
+            modifier(CardBackground())
+    }
+}
+
+
+// previews!!
+struct extraView: View {
+    @StateObject var networkMonitor = NetworkMonitor()
+    var body: some View {
+        ContentView()
+            .environmentObject(networkMonitor)
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        extraView()
     }
 }
