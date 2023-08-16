@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bhagavad Gita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="https://unpkg.com/share-api-polyfill/dist/share-min.js"></script>
+
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+}
+
+.app-fab--absolute {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+@media(min-width: 1024px) {
+   .app-fab--absolute {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+body {
+	font-size: 24px;
+}
+
+h1 {
+	font-size: 34px;
+}
+
+h2 {
+	font-size: 32px;
+}
+
+
+select {
+	font-size: calc(1em - 4px);
+}
+
+option { text-align: right; }
+.leftsel { text-align-last: left;}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+.footerWrap {
+    width: 100%;
+    bottom: 0;
+    padding-right: 5px;
+}
+button {
+	width: 100%;
+}
+.test {
+	width: auto;
+}
+
+.my-card-content {
+  padding: 16px;
+}
+
+.mainta { text-align: center; padding: 150px; }
+  h1.mainta { font-size: 50px; }
+  .mainta { font: 20px Helvetica, sans-serif; color: #333;}
+  article.mainta { display: block; text-align: left; width: 650px; margin: 0 auto; }
+  a.mainta { color: #dc8100 !important; text-decoration: none !important; }
+  a:hover.mainta { color: #333; text-decoration: none; }
+</style>
+</head>
+<body>
+<div style="display: none;" id="mainta" class="mainta">
+<article>
+<img src="https://user-images.githubusercontent.com/68869672/209040790-afb6efcf-e254-4274-97f5-44fdf66691bf.png" alt="bhagavad gita logo" width="50%">
+
+    <h1>We&rsquo;ll be back soon!</h1>
+    <div>
+        <p>Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:jakkipally@gmail.com">contact us</a>, otherwise we&rsquo;ll be back online shortly!</p>
+        <p>&mdash; The Bhagavad Gita Team</p>
+    </div>
+    <h1>Developers...</h1>
+    <form>
+    	<a href="javascript:unmainta()">At your own risk, you can bypass this. Click here. This may cause issues that are big.</a>
+    </form>
+</article>
+</div>
+<div id="options">
+<h1>Bhagavad Gita</h1><hr>
+<div class="mdc-touch-target-wrapper">
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:dashboard()">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">dashboard</i>
+    <span class="mdc-button__label">Dashboard</span>
+  </button>
+</div>
+<div class="mdc-touch-target-wrapper">
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:readbhagavadgita()">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">book</i>
+    <span class="mdc-button__label">Bhagavad Gita</span>
+  </button>
+</div>
+</div>
+
+
+<div id="dashboard" style="display: none;">
+<h1>Dashboard</h1><hr>
+
+<div class="mdc-card mdc-card--outlined">
+  <div class="mdc-card__primary-action my-card-content"  style="font-size: 18px;">
+    <h3>Verse of the day:</h3>
+    <div id="verseofday">
+    Loading... Please wait
+    </div>
+    <div id="meaning">
+    
+    </div>
+  </div>
+  <div class="mdc-card__actions">
+    <div class="mdc-card__action-buttons">
+      
+    </div>
+    
+  </div>
+</div>
+
+<br><br>
+<h2>Journey:</h2>
+<div id="startjourneybutton">
+<button class="mdc-button mdc-button--outlined" onclick="javascript:startjourney28()">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label">Start a month journey</span>
+</button>
+<button class="mdc-button mdc-button--outlined" onclick="javascript:startjourney366()">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label">Start a year journey</span>
+</button>
+<p style="font-size: 16px;"><b>What is a journey?</b><br>
+A journey is a program that goals to help you in finishing reading the whole Bhagavad Gita in a year or in a month.</p>
+</div>
+
+<div id="journeyinprogress" style="display: none;">
+<progress id="shlokasdone" max="701" value="0"></progress>&nbsp;<span style="font-size: calc(1em - 4px);"><span id="current">0</span>/<span id="end"></span></span>
+<button class="mdc-button mdc-button--outlined" onclick="javascript:gotoshlok()" id="firstassignedbutton">
+   <span class="mdc-button__ripple"></span>
+   <span class="mdc-button__label" id="changebuttontext1">Go to first assigned shloka</span>
+</button>
+
+<div id="donetoday">
+<button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:updateshlok()" style="display: block;" id="qlmz">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">check</i>
+    <span class="mdc-button__label"><span id="changephrase">Did you finish</span> <span id="shlokasfortoday"></span> shlokas for today<span id="removequestion">?</span></span>
+  </button>
+  </div>  
+  <button class="mdc-button mdc-button--outlined mdc-button--touch mdc-button--icon-leading" onclick="javascript:restartjourney()" style="display: block;" id="qwerty">
+    <span class="mdc-button__ripple"></span>
+    <span class="mdc-button__touch"></span>
+    <i class="material-icons mdc-button__icon" aria-hidden="true">not_interested</i>
+    <span class="mdc-button__label">Erase journey</span>
+  </button>
+</div>
+
+<script>
+function undisable() {
+	document.getElementById("qlmz").removeAttribute("disabled")
+}
+
+
+setInterval(() => {
+	if (parseInt(localStorage.getItem("c")) < new Date().getDate()) {
+    	console.log("day is over")
+        undisable()
+    }
+}, 500)
+
+function updateshlok() {
+	document.getElementById("changephrase").innerHTML = "Finished"
+    document.getElementById("removequestion").innerHTML = ""
+	document.getElementById("qlmz").disabled = "true"
+    const d = new Date();
+    var c = d.getDate()
+    localStorage.setItem("c", String(c))
+    localStorage.setItem("timesfinished", String(parseInt(localStorage.getItem("timesfinished")) + 1))
+    document.getElementById("current").innerHTML = String(parseInt(    document.getElementById("current").innerHTML) + 1)
+	console.log("Finished shlokas for today")
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    var shlokascomplete = [localStorage.getItem("shlok").split(".")[0], localStorage.getItem("shlok").split(".")[1]]
+    document.getElementById("shlokasdone").value = String(parseInt(document.getElementById("shlokasdone").value) + parseInt(localStorage.getItem("journey")))
+    if (localStorage.getItem("shlok").split(".")[1] == listshlokas[localStorage.getItem("shlok").split(".")[0]]) {
+    	localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + ".1")
+    } else {
+    
+    if (parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) > parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])) {
+    
+    localStorage.setItem("shlok", String(parseInt(localStorage.getItem("shlok").split(".")[0]) + 1) + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey")) - parseInt(listshlokas[localStorage.getItem("shlok").split(".")[0]])))
+    	
+        } else {
+        localStorage.setItem("shlok", localStorage.getItem("shlok").split(".")[0] + "." + String(parseInt(localStorage.getItem("shlok").split(".")[1]) + parseInt(localStorage.getItem("journey"))))
+        }
+    }
+    if (localStorage.getItem("shlok").split(".")[0] == "19")
+    {
+    	document.getElementById("donetoday").innerHTML = "You are done with the full journey. Congrats, you read the full Bhagavad Gita! Next read the Gita Mahatmyam."
+        document.getElementById("firstassignedbutton").disabled = "true"
+        document.getElementById("qwerty").style = "display: block;"
+    }
+    
+    localStorage.setItem("progress", document.getElementById("shlokasdone").value)
+}
+
+function gotoshlok() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("chapter").value = localStorage.getItem("shlok").split(".")[0]
+    getchapter()
+    document.getElementById("shloka").value = localStorage.getItem("shlok").split(".")[1]
+    getshloka()
+    showbackpage = "journey"
+    document.getElementById("read").style = "display: block;"
+}
+
+
+  
+function startjourney() {
+	document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    document.getElementById("shlokasdone").value = "0"
+    localStorage.setItem("timesfinished", "0")
+    localStorage.setItem("journeystarted", "true")
+}
+function startjourney28() {
+	startjourney()
+	localStorage.setItem('journey', '26');
+    localStorage.setItem('journey1', '28');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "28"
+    document.getElementById("shlokasfortoday").innerHTML = "26"
+}
+
+function startjourney366() {
+	startjourney()
+    localStorage.setItem('journey', '2');
+    localStorage.setItem('journey1', '365');
+    localStorage.setItem('shlok', '1.1');
+    document.getElementById("end").innerHTML = "365"
+    document.getElementById("shlokasfortoday").innerHTML = "2"
+}
+
+function restartjourney() {
+Swal.fire({
+  title: 'Erase journey?',
+  text: "You won't be able to revert this",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: `<span style="font-family: 'Roboto';">Erase</span>`,
+  cancelButtonText: `<span style="font-family: 'Roboto';">Cancel</span>`
+}).then((result) => {
+  if (result.value) {
+    localStorage.clear();
+    window.location.reload();
+  }
+})
+	
+    
+}
+
+if (localStorage.getItem("journeystarted") == "true") {
+	console.log("journey has started")
+    document.getElementById("startjourneybutton").style = "display: none;"
+    document.getElementById("journeyinprogress").style = "display: block;"
+    var times = localStorage.getItem("timesfinished");
+    localStorage.setItem("shlok", "1.1")
+    localStorage.setItem("timesfinished", "0")
+    for(var i = 0; i < parseInt(times); i++){
+        updateshlok()
+    }
+    document.getElementById("end").innerHTML = localStorage.getItem("journey1")
+} else {
+	console.log("no journey\ndetected by using journeystarted in storage")
+}
+
+</script>
+
+
+<button class="mdc-fab app-fab--absolute md-fab-bottom-right" aria-label="Back" onclick="javascript:gohome2()">
+  <span class="mdc-fab__ripple"></span>
+  <span class="mdc-fab__icon material-icons">arrow_back</span>
+</button>
+ 
+</div>
+
+
+
+
+<div style="display: none;" id="read"  class="wrapper box">
+<p class="box">
+<div id="chapterstest" style="display: block;">
+<h2>Srimad Bhagavad Gita</h2><hr>
+<form action="javascript:getchapter()">
+  <label for="chapter">Chapter:&nbsp;</label>
+  <select id="chapter" name="chapter" style="font-family: inherit;">
+  	<option value="" selected disabled hidden  style="text-align: left;">Choose</option>
+    <option value="dhyana" style="text-align: left;">Dhyana Shlokas</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="maha" style="text-align: left;">Gita Mahatyam</option>
+    <option value="saaram" style="text-align: left;">Gita Saaram</option>
+    <option value="aarati" style="text-align: left;">Gita Aarati</option>
+  </select>
+</form>
+</div>
+
+<div style="display: none;" id="shlokasting"><br>
+        <form action="javascript:getshloka()">
+  <label for="test">Shloka:&nbsp;</label>
+  <select id="shloka" name="test" style="font-family: inherit;">  
+  
+  </select><br><br>
+  <a href="javascript:getall()">Full Script</a>&nbsp;&nbsp;<a href="javascript:fullaudio()">Full Audio</a>
+  </form><br>
+  <div id="invisible-audio">
+  
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+<div style="display: none;" id="finalshloka">
+<h1>Chapter <span id="chapteradd1"></span>, Shloka <span id="shlokadd"></span></h1>
+
+<hr>
+
+<div id="theshloka">
+Loading... Please wait
+</div>
+<div id="themeaning">
+
+</div>
+
+
+
+<!-- footer -->
+        <footer class="footerWrap"><hr><a href="javascript:gotoback()">Previous</a><span> </span><a href="javascript:gottofront()" style="float: right;">Next</a>
+
+        	</footer>
+</div>
+
+<div style="display: none;" id="fullchapter">
+<h1>Chapter <span id="chapteradd2"></span>, Full Chapter</h1><hr>
+<div id="theshlokas">
+Loading... Please wait
+</div>
+</div>
+
+<div style="display: none;" id="extrasshow">
+<h1><span id="chapteradd3"></span></h1><hr>
+<div id="theshlokas1">
+Loading... Please wait
+</div>
+<br>
+<div id="theaudio3">
+</div>
+</div>
+
+<button class="mdc-fab app-fab--absolute" aria-label="Back" onclick="javascript:gohome1()">
+  <span class="mdc-fab__ripple"></span>
+  <span class="mdc-fab__icon material-icons">arrow_back</span>
+</button>
+
+</div>
+<script>
+
+var showbackpage = ""
+
+
+function fullaudio() {
+	document.getElementById("invisible-audio").innerHTML = `
+	<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/full.${document.getElementById("chapter").value}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>
+    `
+}
+
+
+function readbhagavadgita() {
+	showbackpage = "options"
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("read").style = "display: block;"
+}
+
+
+
+var e = document.getElementById("chapter");
+function onChange() {
+  var value = e.value;
+  var text = e.options[e.selectedIndex].text;
+  console.log(value);
+  getchapter();
+}
+e.onchange = onChange;
+
+
+var chapter = ""
+function getchapter() {
+	
+    
+    extras = ["dhyana", "aarati", "saaram", "maha"]
+    
+    function myNewFunction(sel) {
+  return sel.options[sel.selectedIndex].text;
+}
+    if (extras.includes(document.getElementById("chapter").value)) {
+    	console.log("viewing one of the following:")
+        console.log(extras)
+    	showbackpage = "nooptions"
+    	document.getElementById("chapterstest").style = "display: none;"
+        document.getElementById("extrasshow").style = "display: block;"
+        document.getElementById("shlokasting").style = "display: none;"
+        document.getElementById("chapteradd3").innerHTML = myNewFunction(document.getElementById("chapter"))
+        fetch('https://bhagavdgita.github.io/text/' + document.getElementById("chapter").value + ".txt")
+	.then(response => response.text())
+	.then(response => {
+        document.getElementById("theshlokas1").innerHTML = response.replaceAll("\n", "<br>")
+        document.getElementById("theaudio3").innerHTML = `
+	<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/full.${document.getElementById("chapter").value}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>
+    `
+      })
+    } else {
+    
+	var chapter = document.getElementById("chapter").value
+    var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+    	document.getElementById("chapterstest").style = "display: block;"
+    	document.getElementById("shlokasting").style = "display: block;"
+        document.getElementById("shloka").innerHTML = `<option value="" selected disabled hidden>Choose</option>`
+        for (var i = 1; i < parseInt(listshlokas[chapter]) + 1; i++) {
+          createnewoption = document.createElement("option")
+          createnewoption.innerHTML = i.toString()
+          createnewoption.value = i.toString()
+          test = document.getElementById("shloka")
+          test.appendChild(createnewoption)
+        }
+     var e = document.getElementById("shloka");
+function onChange() {
+  var value = e.value;
+  var text = e.options[e.selectedIndex].text;
+  console.log(value);
+  getshloka();
+}
+e.onchange = onChange;
+}
+}
+
+
+
+function getall() {
+showbackpage = "nooptions"
+var shloka = document.getElementById("shloka").value
+document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("chapterstest").style = "display: none;"
+    document.getElementById("fullchapter").style = "display: block;"
+    	document.getElementById("chapteradd2").innerHTML = document.getElementById("chapter").value
+    document.getElementById("theshlokas").innerHTML = `<iframe src="https://bhagavdgita.github.io/telugu/Chapter%20${document.getElementById("chapter").value}.pdf" style="width:100%; height:500px;" frameborder="0"></iframe>`
+}
+
+function getshloka() {
+	showbackpage = "nooptions"
+	var shloka = document.getElementById("shloka").value
+    
+    if (shloka == "all") {
+    
+    
+    
+    getall()
+    
+    
+    
+    
+    } else {
+    
+    document.getElementById("shlokasting").style = "display: none;"
+    document.getElementById("chapterstest").style = "display: none;"
+    document.getElementById("finalshloka").style = "display: block;"
+    document.getElementById("chapteradd1").innerHTML = document.getElementById("chapter").value
+    document.getElementById("shlokadd").innerHTML = shloka
+    
+    // get shloka from api
+
+    const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://gita-api-v2.vercel.app/GitaTeluguAPIproxy/tel/'+document.getElementById("chapter").value + '/' + shloka, options)
+	.then(response => response.json())
+	.then(response => {
+    document.getElementById("theshloka").innerHTML = response.script.replaceAll('\n', '<br>')
+    document.getElementById("themeaning").innerHTML = "<br><br>" +  response.meaning.replaceAll('\n', '<br>') + `<br><br>
+<audio controls>
+	<source src="https://bhagavdgita.github.io/audio/${document.getElementById("chapter").value}.${shloka}.m4a" type="audio/x-m4a">
+  <code> Your phone doesn't support audio tags</code>
+</audio>`
+    })
+	.catch(err => console.error(err));
+    }
+} 
+
+
+function gotoback() {
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+	var shloka = document.getElementById("shloka").value
+    var chapter = document.getElementById("chapter").value
+    document.getElementById("theshloka").innerHTML = "Loading... Please wait"
+    document.getElementById("themeaning").innerHTML = ""
+    if (shloka == 1) {
+    	document.getElementById("shloka").value = listshlokas[parseInt(chapter) - 1]
+        document.getElementById("chapter").value = parseInt(chapter) - 1
+        console.log(document.getElementById("chapter").value)
+        console.log(document.getElementById("shloka").value)
+        getshloka()
+    } else {
+    	document.getElementById("shloka").value = parseInt(shloka) - 1
+        getshloka()
+    }
+}
+
+function gottofront() {
+	var listshlokas = ["0", "47", "72", "43", "42", "29", "47", "30", "28", "34", "42", "55", "20", "35", "27", "20", "24", "28", "78"]
+	var shloka = document.getElementById("shloka").value
+    var chapter = document.getElementById("chapter").value
+    document.getElementById("theshloka").innerHTML = "Loading... Please wait"
+    document.getElementById("themeaning").innerHTML = ""
+    if (shloka == parseInt(listshlokas[chapter])) {
+    	document.getElementById("shloka").value = 1
+        document.getElementById("chapter").value = parseInt(chapter) + 1
+        console.log(document.getElementById("chapter").value)
+        console.log(document.getElementById("shloka").value)
+        getshloka()
+    } else {
+    	document.getElementById("shloka").value = parseInt(shloka) + 1
+        getshloka()
+    }
+}
+
+function gohome1() {
+		if (showbackpage == "options") {
+			
+            document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: block;"
+        } else if (showbackpage == "journey"){
+        	document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: none;"
+            document.getElementById("dashboard").style = "display: block;"
+        } else {
+        	document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: block;"
+            document.getElementById("options").style = "display: none;"
+            document.getElementById("chapter").value = ""
+            showbackpage = "options"
+        }
+}
+
+
+function dashboard() {
+	document.getElementById("options").style = "display: none;"
+    document.getElementById("dashboard").style = "display: block;"
+	
+    // verse of day  			
+    fetch("https://gita-api-v2.vercel.app/shlokaoftheday")
+    .then(response => response.json())
+    .then((data) => {
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '72ddb23f61mshd7034341804bcedp12906djsned505dec18e5',
+		'X-RapidAPI-Host': 'bhagavad-gita3.p.rapidapi.com'
+	}
+};
+
+fetch('https://gita-api-v2.vercel.app/GitaTeluguAPIproxy/tel/' + data[0] + '/' + data[1], options)
+	.then(response => response.json())
+	.then(response => {
+    console.log(response)
+    document.getElementById("verseofday").innerHTML = response.script.replaceAll('\n', '<br>')
+    
+    document.getElementById("meaning").innerHTML = "<br><br>" +  response.meaning.replaceAll('\n', '<br>')
+    })
+	.catch(err => console.error(err));
+    })
+}	
+
+
+function shareverse() {
+	
+if (navigator.share) {
+  navigator.share({
+      title: 'Verse of the day',
+      text: document.getElementById("verseofday").innerText + document.getElementById("meaning").innerText
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+} else {
+  alert("Cannot share file - try again on a different device")
+}
+}
+
+text = 0
+document.querySelectorAll('button').forEach(element => {
+	mdc.ripple.MDCRipple.attachTo(document.querySelectorAll('button')[text]);
+    text++
+})
+
+function gohome2() {
+	document.getElementById("dashboard").style = "display: none;"
+    document.getElementById("options").style = "display: block;"
+}
+
+
+function mainta(){
+  document.getElementById("mainta").style.display = "block"
+  document.getElementById("finalshloka").style = "display: none;"
+  document.getElementById("shlokasting").style = "display: none;"
+  document.getElementById("chapterstest").style = "display: none;"
+  document.getElementById("extrasshow").style = "display: none;"
+  document.getElementById("fullchapter").style = "display: none;"
+  document.getElementById("read").style = "display: none;"
+  document.getElementById("options").style = "display: none;"
+  document.getElementById("finalshloka").style = "display: none;"
+  document.getElementById("shlokasting").style = "display: none;"
+  document.getElementById("chapterstest").style = "display: none;"
+  document.getElementById("extrasshow").style = "display: none;"
+  document.getElementById("fullchapter").style = "display: none;"
+  document.getElementById("read").style = "display: none;"
+  document.getElementById("options").style = "display: none;"
+  document.getElementById("chapter").value = ""
+  
+}
+
+function unmainta() {
+document.getElementById("mainta").style.display = "none"
+document.getElementById("finalshloka").style = "display: none;"
+        	document.getElementById("shlokasting").style = "display: none;"
+        	document.getElementById("chapterstest").style = "display: block;"
+            document.getElementById("extrasshow").style = "display: none;"
+        	document.getElementById("fullchapter").style = "display: none;"
+        	document.getElementById("read").style = "display: none;"
+            document.getElementById("options").style = "display: block;"
+}
+
+
+// Uncomment for maintainence:
+// mainta()
+
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E6LF33ZH9Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E6LF33ZH9Q');
+</script>
+</body>
+</html>
