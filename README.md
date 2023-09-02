@@ -4,15 +4,16 @@
 
 A simple and easy to use app for viewing the Bhagavad Gita. Licensed with the MIT License.
 
-## Download
 
-### Android
+## iOS
+The app is almost ready  be released to the on the App Store 🎉🎉🎉! 
 
-Coming soon!
+### Early access
+Access is currently being offered to a limited group of people with a low grace time. Email jakkipally@gmail.com for a TestFlight or manual download!
 
-### iPhone
 
-The iOS version currently is in development You can check the current Swift code in the `ios` directory.
+## Android
+Android is currently in the development stage. If you would like to contribute, please email me at jakkipally@gmail.com
 
 ## License
 
