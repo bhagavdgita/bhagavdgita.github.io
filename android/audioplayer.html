@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Audio Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #151518;
+        color: white;
+    }
+    a:link {
+        color: #0096e2;
+    }
+    a:visited {
+        color: #9d57df;
+    }
+}
+</style>
+</head>
+<body>
+<audio controls id="audio"></audio>
+
+<script>
+const params = new Proxy(new URLSearchParams(window.location.search), {
+  get: (searchParams, prop) => searchParams.get(prop),
+});
+let chapter = params.chapter;
+let shloka = params.shloka;
+
+document.getElementById("audio").src = `https://bhagavdgita.github.io/audio/${chapter}.${shloka}.m4a`
+</script>
+</body>
+</html>
